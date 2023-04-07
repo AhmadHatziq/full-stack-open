@@ -1,6 +1,6 @@
 # Exercise 0
 
-## Sample Sequence Diagram (Opening the page `https://studies.cs.helsinki.fi/exampleapp/notes`)
+### Sample Sequence Diagram (Opening the page `https://studies.cs.helsinki.fi/exampleapp/notes`)
 ```mermaid 
 sequenceDiagram
     participant browser
@@ -108,4 +108,21 @@ sequenceDiagram
 
 
 ## 0.6: New Note in Single Page App Diagram 
+Create a diagram depicting the situation where the user creates a new note using the single-page version of the app.
 
+```mermaid 
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: The browser extracts the note content and adds it into the notes array. 
+
+    Note right of browser: The browser empties the textbox of the form and re-renders the notes content, which has the newly inputted content.  
+
+    Note right of browser: The browser sends the new note data to the server via POST.
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_node_spa. Payload consists of text content for the new note and the date time. 
+    activate server
+    server-->>browser: Status code 201. This indicates that the request has successfully led to the creation of the resource ie saved into the server database. 
+    deactivate server
+```
