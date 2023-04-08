@@ -15,13 +15,22 @@ const App = () => {
   const handleClick = (event) => {
     event.preventDefault()
 
-    // Extract input text data and store the new person. 
-    const newPerson = {name: newName}
-    setPersons(persons.concat(newPerson))
+    // Extract input text data and creaate the new person. 
+    const inputName = newName
+    const newPerson = {name: inputName}
 
     // Clear input field 
     setNewName('')
 
+    // Check if the person exists in the array. 
+    const arrayContainsPerson = persons.some(person => person.name === inputName)
+    
+    if (arrayContainsPerson === true) {
+      alert(`${inputName} is already added to phonebook`)
+    } else {
+      console.log(`Added person ${inputName} into the array`)
+      setPersons(persons.concat(newPerson))
+    }
   }
 
   return (
