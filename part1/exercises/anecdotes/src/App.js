@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+const Button = ({buttonLabel, buttonHandler}) => {
+  return (
+    <button onClick={buttonHandler}>
+      {buttonLabel} 
+    </button>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -14,9 +22,26 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  // Function for the "next anecdote" button. 
+  const nextAnecdote = () => {
+
+    // Generate a random integer from 0 to size of anecdotes 
+    const random_index = Math.floor(Math.random() * anecdotes.length) 
+
+    // Set the 'selected' value 
+    setSelected(random_index)
+
+    // Log the random index. Note that the 2 values do not match due to asynchronousity. 
+    console.log('Random index: ', random_index)
+    console.log('Selected index: ', selected)
+
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+      <br/><br/>
+      <Button buttonLabel="next anecdote" buttonHandler={nextAnecdote}/>
     </div>
   )
 }
