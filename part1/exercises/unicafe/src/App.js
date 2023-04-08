@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const ButtonComponent = ({button_label, value, setValue}) => {
+const Button = ({button_label, value, setValue}) => {
 
   // Define event handler function for button click. 
   const clickFunction = () => {
@@ -15,9 +15,9 @@ const ButtonComponent = ({button_label, value, setValue}) => {
 }
 
 // Returns a '%' for the 'positive' label
-const DisplayComponent = ({display_label, value}) => {
-  if (display_label === 'positive') return  <p>{display_label} {value} %</p>
-  return <p>{display_label} {value}</p>
+const StatisticLine = ({text, value}) => {
+  if (text === 'positive') return  <p>{text} {value} %</p>
+  return <p>{text} {value}</p>
   
 }
 
@@ -34,12 +34,12 @@ const Statistics = ({good, neutral, bad}) => {
 
     return(
       <>
-        <DisplayComponent display_label="good" value={good}/>
-        <DisplayComponent display_label="neutral" value={neutral}/>
-        <DisplayComponent display_label="bad" value={bad}/>
-        <DisplayComponent display_label="all" value={total}/>
-        <DisplayComponent display_label="average" value={average}/>
-        <DisplayComponent display_label="positive" value={positive} />
+        <StatisticLine text="good" value={good}/>
+        <StatisticLine text="neutral" value={neutral}/>
+        <StatisticLine text="bad" value={bad}/>
+        <StatisticLine text="all" value={total}/>
+        <StatisticLine text="average" value={average}/>
+        <StatisticLine text="positive" value={positive} />
       </>
     )
 
@@ -55,9 +55,9 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <ButtonComponent button_label="good" value={good} setValue={setGood}/>
-      <ButtonComponent button_label="neutral" value={neutral} setValue={setNeutral}/>
-      <ButtonComponent button_label="bad" value={bad} setValue={setBad}/>
+      <Button button_label="good" value={good} setValue={setGood}/>
+      <Button button_label="neutral" value={neutral} setValue={setNeutral}/>
+      <Button button_label="bad" value={bad} setValue={setBad}/>
       
       <h1>statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad}/>
