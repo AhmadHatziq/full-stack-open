@@ -1,62 +1,73 @@
 
+// Component rendering a single Course. 
+const Course = ({course}) => {
+
+  return(
+    <>
+      <Header header={course.name}/>
+      <Content parts={course.parts}/>
+    </>
+  )
+}
+
 // Component rendering the Header. 
-const Header = (props) => {
+const Header = ({header}) => {
   return (
-    <h1>{props.header}</h1>
+    <h1>{header}</h1>
   )
 }; 
 
 // Component rendering the content 
-const Content = (props) => {
+const Content = ({parts}) => {
   return(
     <>
-      {props.parts.map(part => <Part part = {part}/>)}
+      {parts.map(part => <Part part={part} key={part.id}/>)}
     </>
   )
 };
 
 // Component rendering each part 
-const Part = (props) => {
+const Part = ({part}) => {
   return (
-    <p>{props.part.name} {props.part.exercises}</p>
+    <p>{part.name} {part.exercises}</p>
   )
 }; 
 
 // Component rendering the total. 
-const Total = (props) => {
+const Total = ({total}) => {
   return (
     <>
-      <p>Number of exercises {props.total}</p>
+      <p>Number of exercises {total}</p>
     </>
   )
 }; 
 
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
   return (
     <div>
-      <Header header={course.name}/>
-      <Content 
-        parts = {course.parts}
-      />
-      <Total total={course.parts.reduce((accumulator, currentValue) => accumulator + currentValue.exercises, 0)}/>
+      <Course course={course}/>
     </div>
   )
 }
