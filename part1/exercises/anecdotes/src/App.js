@@ -19,6 +19,9 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+
+  // voteCounts is initialized to be an array of '0's, of the same length as anecdotes array. 
+  const [voteCounts, setVoteCounts] = useState(new Uint8Array(anecdotes.length))
    
   const [selected, setSelected] = useState(0)
 
@@ -37,11 +40,32 @@ const App = () => {
 
   }
 
+  // Increment the votecount for the selected anecdote 
+  const voteAnecdote = () => {
+
+    // Updating the state must be done on a copy of the array. 
+    const updatedCounts = [...voteCounts] // Use the spread operator to copy the whole array over. 
+    updatedCounts[selected] += 1 
+    setVoteCounts(updatedCounts) // Update the state using the copy of the array. 
+    
+  }
+
   return (
     <div>
       {anecdotes[selected]}
+
       <br/><br/>
+
+      has {voteCounts[selected]} votes 
+
+      <br/><br/>
+
+      <Button buttonLabel="vote" buttonHandler={voteAnecdote}/>
+
+      <br/><br/>
+
       <Button buttonLabel="next anecdote" buttonHandler={nextAnecdote}/>
+
     </div>
   )
 }
