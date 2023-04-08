@@ -29,6 +29,9 @@ const Statistics = ({good, neutral, bad}) => {
     let average = (good - bad * 1.0) / (1.0 * total)
     let positive = good / total * 100.0
 
+    // Display the string "No feedback given" if total is 0 ie there is no feedback given. 
+    if (parseInt(total) === 0) return <p>No feedback given</p>
+
     return(
       <>
         <DisplayComponent display_label="good" value={good}/>
