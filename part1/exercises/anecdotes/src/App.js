@@ -8,6 +8,16 @@ const Button = ({buttonLabel, buttonHandler}) => {
   )
 }
 
+const MostVotes = ({anecdotes, voteCounts}) => {
+
+  // Get the index with the most votes 
+  const maxVotes = Math.max(...voteCounts)
+  const maxIndex = voteCounts.indexOf(maxVotes)
+
+  // Displays the anecdote with the most votes 
+  return(<p>{anecdotes[maxIndex]}</p>)
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -52,6 +62,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
 
       <br/><br/>
@@ -65,6 +76,18 @@ const App = () => {
       <br/><br/>
 
       <Button buttonLabel="next anecdote" buttonHandler={nextAnecdote}/>
+
+      <br/><br/>
+
+      <h1>Anecdote with the most votes</h1>
+
+      <br/>
+
+      <MostVotes anecdotes={anecdotes} voteCounts={voteCounts}/>
+
+      <br/><br/>
+
+      has {voteCounts[selected]} votes 
 
     </div>
   )
