@@ -16,9 +16,8 @@ const Button = ({button_label, value, setValue}) => {
 
 // Returns a '%' for the 'positive' label
 const StatisticLine = ({text, value}) => {
-  if (text === 'positive') return  <p>{text} {value} %</p>
-  return <p>{text} {value}</p>
-  
+  if (text === 'positive') return  <tr><td style={{textAlign: "center"}}>{text}</td><td style={{textAlign: "center"}}>{value} %</td></tr>
+  return <tr><td style={{textAlign: "center"}}>{text}</td><td style={{textAlign: "center"}}>{value}</td></tr>
 }
 
 // Calculates & displays the statistics
@@ -34,12 +33,24 @@ const Statistics = ({good, neutral, bad}) => {
 
     return(
       <>
-        <StatisticLine text="good" value={good}/>
-        <StatisticLine text="neutral" value={neutral}/>
-        <StatisticLine text="bad" value={bad}/>
-        <StatisticLine text="all" value={total}/>
-        <StatisticLine text="average" value={average}/>
-        <StatisticLine text="positive" value={positive} />
+
+        <table>
+          <thead>
+            <tr>
+              <th>statistic</th>
+              <th>value</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            <StatisticLine text="good" value={good}/>
+            <StatisticLine text="neutral" value={neutral}/>
+            <StatisticLine text="bad" value={bad}/>
+            <StatisticLine text="all" value={total}/>
+            <StatisticLine text="average" value={average}/>
+            <StatisticLine text="positive" value={positive} />
+          </tbody>
+        </table>
       </>
     )
 
