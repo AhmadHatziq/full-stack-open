@@ -1,7 +1,7 @@
 import personService from '../services/persons'
 
 // Renders the form
-const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber}) => {
+const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber, setNotificationMessage}) => {
 
     // Used to handle the event when the input name text field is changed. 
     const handleInputChange = (event, setterFunction) => {
@@ -38,6 +38,12 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
             .update(updatedPerson.id, updatedPerson)
             .then(response => {
               setPersons(persons.map(person => person.name !== inputName ? person : response.data))
+              
+              // Notify the user and make the message disappear (ie set to null) after 5 seconds. 
+              setNotificationMessage(`Updated the number for ${updatedPerson.name}`)
+              setTimeout(() => {
+                setNotificationMessage(null)
+              }, 5000)
               console.log(`Updated ${inputName} with new number`)
             })
   
@@ -60,6 +66,12 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
             // Clear input fields 
             setNewName('')
             setNewPhoneNumber('')
+
+            // Notify the user and make the message disappear (ie set to null) after 5 seconds. 
+            setNotificationMessage(`Added ${newPerson.name}`)
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
   
             // Log the newly created person and number. 
             console.log(`Added person ${response.data.name} with no: ${response.data.number} into the array`)
