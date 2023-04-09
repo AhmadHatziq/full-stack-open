@@ -39,19 +39,31 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
 
     // Get the largest id present. 
     const maxId = persons.reduce((max, item) => Math.max(max, item.id), -Infinity)
-
-    // Clear input fields 
-    setNewName('')
-    setNewPhoneNumber('')
     
     // Add only if the name is not in the phonebook. 
     if (arrayContainsPerson === true) {
       alert(`${inputName} is already added to phonebook`)
     } else {
-      // Store person & number into array
+
+      // Create new person object 
       const newPerson = {name: inputName, 'number': newNumber, toShow: true, id: maxId+1}
-      console.log(`Added person ${newPerson.name} with no: ${newPerson.number} into the array`)
-      setPersons(persons.concat(newPerson))
+
+      // Do a POST to store the new object in the backend. 
+      // If successful, store the value in the local array. Update the state & re-render. 
+      axios 
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+
+          // Update persons array 
+          setPersons(persons.concat(response.data))
+
+          // Clear input fields 
+          setNewName('')
+          setNewPhoneNumber('')
+
+          // Log the newly created person and number. 
+          console.log(`Added person ${response.data.name} with no: ${response.data.number} into the array`)
+        })
     }
   }
 
@@ -116,10 +128,7 @@ const App = () => {
     axios 
       .get('http://localhost:3001/persons')
       .then(response => {
-        // The JSON data does not have the boolean 'toShow' field. Hence, need to add it in. 
-        let json_array = response.data 
-        json_array = json_array.map(person => ({...person, toShow: true}))
-        setPersons(json_array)
+        setPersons(response.data )
       })
   }, [])
 
