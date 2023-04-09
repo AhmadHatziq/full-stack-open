@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 // Renders a single person's name & telephone number. 
 const SinglePerson = ({person}) => <p>{person.name} {person.number} </p>
@@ -28,17 +28,15 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
   const handleClick = (event) => {
     event.preventDefault()
 
-    // Extract input text data and creaate the new person. 
+    // Extract input name & phone number. 
     const inputName = newName
-    
-    // Check if the person exists in the array. 
-    const arrayContainsPerson = persons.some(person => person.name === inputName)
-
-    // Extract input phone number. 
     const newNumber = newPhoneNumber
 
     // Get the largest id present. 
     const maxId = persons.reduce((max, item) => Math.max(max, item.id), -Infinity)
+
+    // Check if the person exists in the array. 
+    const arrayContainsPerson = persons.some(person => person.name === inputName)
     
     // Add only if the name is not in the phonebook. 
     if (arrayContainsPerson === true) {
@@ -50,8 +48,8 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
 
       // Do a POST to store the new object in the backend. 
       // If successful, store the value in the local array. Update the state & re-render. 
-      axios 
-        .post('http://localhost:3001/persons', newPerson)
+      personService
+        .create(newPerson)
         .then(response => {
 
           // Update persons array 
@@ -125,8 +123,8 @@ const App = () => {
 
   // Retrieve the JSON data and set the persons array. 
   useEffect( () => {
-    axios 
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
         setPersons(response.data )
       })
