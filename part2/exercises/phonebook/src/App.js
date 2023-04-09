@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 // Renders a single person's name & telephone number. 
 const SinglePerson = ({person}) => <p>{person.name} {person.number} </p>
@@ -80,20 +81,7 @@ const Filter = ({searchTerm, setSearchTerm, persons, setPersons}) => {
     const searchTermValue = (event.target.value).toLowerCase() 
     
     // If the searchTerm is similar to the name, mark toShow as true. Else, mark as false. 
-
-    // Note that the code below does not work as it is directly mutating the array copy. 
-    /*
-    let currentPersons = persons 
-    for (let i = 0;i < currentPersons.length; i++){
-      if (currentPersons[i].name.includes(searchTermValue)) {
-        currentPersons[i].toShow = true
-      } else {
-        currentPersons[i].toShow = false
-      }
-    }
-    */ 
-
-    // Below is the working version. Need to create a new array and Person with the spread operator (...)
+    // Need to create a new array and Person with the spread operator (...)
     let currentPersons = [...persons] 
     for (let i = 0; i < currentPersons.length; i++){
       if (currentPersons[i].name.toLowerCase().includes(searchTermValue)) {
@@ -118,15 +106,22 @@ const Filter = ({searchTerm, setSearchTerm, persons, setPersons}) => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1, toShow: true},
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2, toShow: true},
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3, toShow: true},
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4, toShow: true}
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+
+  // Retrieve the JSON data and set the persons array. 
+  useEffect( () => {
+    axios 
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        // The JSON data does not have the boolean 'toShow' field. Hence, need to add it in. 
+        let json_array = response.data 
+        json_array = json_array.map(person => ({...person, toShow: true}))
+        setPersons(json_array)
+      })
+  }, [])
 
   return (
     <div>
