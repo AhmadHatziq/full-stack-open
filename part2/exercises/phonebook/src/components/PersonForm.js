@@ -1,7 +1,8 @@
 import personService from '../services/persons'
 
 // Renders the form
-const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, setNewPhoneNumber, setNotificationMessage}) => {
+const PersonForm = ({persons, setPersons, newName, setNewName, 
+                     newPhoneNumber, setNewPhoneNumber, setNotificationMessage, setNotificationColor}) => {
 
     // Used to handle the event when the input name text field is changed. 
     const handleInputChange = (event, setterFunction) => {
@@ -41,10 +42,27 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
               
               // Notify the user and make the message disappear (ie set to null) after 5 seconds. 
               setNotificationMessage(`Updated the number for ${updatedPerson.name}`)
+              setNotificationColor('green')
               setTimeout(() => {
                 setNotificationMessage(null)
               }, 5000)
               console.log(`Updated ${inputName} with new number`)
+            })
+            .catch(error => {
+              
+              // If there is an error, remove this person from the frontend persons array
+              setPersons(persons.filter(person => person.name !== inputName))
+
+              // Show error message to the user 
+              const message = `Information of ${inputName} has already been removed from server`
+              setNotificationMessage(message)
+              setNotificationColor('red')
+              setTimeout(() => {
+                setNotificationMessage(null)
+              }, 5000)
+
+              console.log(error)
+
             })
   
         }
@@ -69,6 +87,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
 
             // Notify the user and make the message disappear (ie set to null) after 5 seconds. 
             setNotificationMessage(`Added ${newPerson.name}`)
+            setNotificationColor('green')
             setTimeout(() => {
               setNotificationMessage(null)
             }, 5000)

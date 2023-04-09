@@ -12,6 +12,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationColor, setNotificationColor] = useState('green')
 
   // Retrieve the JSON data and set the persons array. 
   useEffect( () => {
@@ -25,7 +26,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage}/>
+      <Notification message={notificationMessage} notificationColor={notificationColor}/>
       <Filter
         searchTerm={searchTerm} setSearchTerm={setSearchTerm}
         persons={persons} setPersons={setPersons}
@@ -36,7 +37,7 @@ const App = () => {
         newName={newName} setNewName={setNewName} 
         newPhoneNumber={newPhoneNumber} setNewPhoneNumber={setNewPhoneNumber}
         persons={persons} setPersons={setPersons}
-        setNotificationMessage={setNotificationMessage}
+        setNotificationMessage={setNotificationMessage} setNotificationColor={setNotificationColor}
       />
 
       <h2>Numbers</h2>
