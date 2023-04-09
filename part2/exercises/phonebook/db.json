@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "number": "1",
       "id": 1,
       "toShow": true
     },
@@ -23,6 +23,12 @@
       "number": "39-23-6423122",
       "id": 4,
       "toShow": true
+    },
+    {
+      "name": "Arto Hellas Jnr",
+      "number": "9999999999wqewqe",
+      "toShow": true,
+      "id": 5
     }
   ]
 }

@@ -69,9 +69,27 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newPhoneNumber, s
     // Check if the person exists in the array. 
     const arrayContainsPerson = persons.some(person => person.name === inputName)
     
-    // Add only if the name is not in the phonebook. 
+    // If the person exists, overwrite the number only. 
+    // If the person does not exist, create & add a new person. 
     if (arrayContainsPerson === true) {
-      alert(`${inputName} is already added to phonebook`)
+
+      const message = `${inputName} is already added to phonebook, replace the old number with a new one?`
+      if (window.confirm(message) === true) {
+
+        // Create the new person object 
+        const matchingPerson = persons.find(person => person.name === inputName)
+        const updatedPerson = {...matchingPerson, number: newNumber}
+
+        // Update the backend & frontend 
+        personService
+          .update(updatedPerson.id, updatedPerson)
+          .then(response => {
+            setPersons(persons.map(person => person.name !== inputName ? person : response.data))
+            console.log(`Updated ${inputName} with new number`)
+          })
+
+      }
+      return
     } else {
 
       // Create new person object 
