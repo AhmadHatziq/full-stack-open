@@ -1,12 +1,25 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
+import './App.css'
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='error'>
+      {message}
+    </div>
+  )
+}
 
 const App = (props) => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [newNote, setNewNote] = useState('') 
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
 
   // If true, will be 'notes'. Else, will only be notes where 'important' is set to true. 
   const notesToShow = showAll
@@ -65,6 +78,7 @@ const App = (props) => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all' }
