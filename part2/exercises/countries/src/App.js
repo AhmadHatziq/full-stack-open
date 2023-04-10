@@ -5,34 +5,56 @@ import axios from 'axios'
 const endpoint = 'https://restcountries.com/v3.1/all?fields=name&fields=flag&fields=capital&fields=area&fields=languages&fields=flags'
 
 // Displays the search results of matching countries 
-const RenderCountries = ({countriesToRender}) => {
+const RenderCountries = ({countriesToRender, setSingleCountryRender}) => {
 
-    if (countriesToRender.length === 0) {
-      return (
-        <p>No results found</p>
-      )
-    }
+  // When clicked, display the country at the bottom. 
+  const handleClick = (event, country) => {
+    setSingleCountryRender(country)
+  }
 
-    // If there are more than 10 countries, show 'Too many matches, specify another filter'
-    if (countriesToRender.length > 10) {
-      return (
-        <p>Too many matches, specify another filter</p>
-      )
-    } 
+  if (countriesToRender.length === 0) {
+    return (
+      <p>No results found</p>
+    )
+  }
 
-    // If there are ten or fewer matching countries, show the list 
-    if (countriesToRender.length > 1 && countriesToRender.length <= 10) {
-      return (
-        <>
-          {countriesToRender.map(item => <p key={item.name.common}>{item.name.common}</p>)}
-        </>
-      )
-    } 
+  // If there are more than 10 countries, show 'Too many matches, specify another filter'
+  if (countriesToRender.length > 10) {
+    return (
+      <p>Too many matches, specify another filter</p>
+    )
+  } 
 
-    // If there is only one matching country, show the capital, area, langauges & flag 
-    if (countriesToRender.length === 1) {
-      const singleCountry = countriesToRender[0]
-      const languages = Object.values(singleCountry.languages)
+  // If there are ten or fewer matching countries, show the list 
+  if (countriesToRender.length > 1 && countriesToRender.length <= 10) {
+    return (
+      <>
+        {countriesToRender.map(item => {
+        return(
+          <div key={item.name.common} className="search-container">
+            <p>{item.name.common}</p>
+            <button onClick = {(event) => handleClick(event, item)}>show</button>
+          </div>
+        )})}
+      </>
+    )
+  } 
+
+  // If there is only one matching country, show the capital, area, langauges & flag 
+  if (countriesToRender.length === 1) {
+    setSingleCountryRender('')
+    return <RenderSingleCountry singleCountry={countriesToRender[0]}/>
+  }
+}
+
+// Renders the information of a single country ie the capital, area, langauges & flag 
+const RenderSingleCountry = ({singleCountry}) => {
+
+  if (singleCountry === null || singleCountry.length === 0) {
+    return null
+  }
+
+  const languages = Object.values(singleCountry.languages)
       return(
         <>
           <h1>{singleCountry.name.common}</h1>
@@ -45,7 +67,6 @@ const RenderCountries = ({countriesToRender}) => {
           <img src={singleCountry.flags.png}/>
         </>
       )
-    }
 }
 
 // Component for the text search field. 
@@ -88,6 +109,7 @@ function App() {
   const [searchCountry, setSearchCountry] = useState('')
   const [countries, setCountries] = useState([]) // Stores the full array
   const [countriesToRender, setCountriesToRender] = useState([])
+  const [singleCountryRender, setSingleCountryRender] = useState(null)
 
   // Retrieve the JSON data from the backend server. 
   useEffect(() => {
@@ -104,13 +126,17 @@ function App() {
     <div>
       <h1>Hello countries</h1>
       <CountrySearch 
-      searchCountry={searchCountry} 
-      setSearchCountry={setSearchCountry}
-      countries={countries}
-      setCountriesToRender={setCountriesToRender}
+        searchCountry={searchCountry} 
+        setSearchCountry={setSearchCountry}
+        countries={countries}
+        setCountriesToRender={setCountriesToRender}
       />
       <RenderCountries
         countriesToRender={countriesToRender}
+        setSingleCountryRender={setSingleCountryRender}
+      />
+      <RenderSingleCountry
+        singleCountry={singleCountryRender}
       />
     </div>
   );
