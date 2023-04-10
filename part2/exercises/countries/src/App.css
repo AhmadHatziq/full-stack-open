@@ -1,0 +1,13 @@
+.search-container {
+    display: flex;
+    align-items: center;
+  }
+   
+  .search-container p {
+    margin-right: 25px; /* adjust as needed */
+  }
+   
+  .search-container input {
+    width: 25%; /* adjust as needed */
+  }
+  
