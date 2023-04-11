@@ -60,6 +60,45 @@ app.delete('/api/persons/:id', (request, response) => {
 
   })
 
+  // Generate a random ID from the largest current ID to positive infinity 
+  const generateId = () => {
+    const maxId = persons.length > 0
+      ? Math.max(...persons.map(p => p.id))
+      : 0
+    const randomId = maxId + 1 + Math.floor(Math.random() * 10000)
+    return randomId
+  }
+
+  // Add a new person when a POST request is made. 
+  app.post('/api/persons', (request, response) => {
+    const body = request.body 
+
+    // Check if there is missing name 
+    if (!body.name) {
+        return response.status(400).json({ 
+          error: 'name missing' 
+        })
+    }
+
+    console.log(body)
+    
+    // Create a new person object
+    const newPerson = {
+        id: generateId(), 
+        name: body.name, 
+        number: body.number 
+    }
+
+    // Append to the persons array
+    persons = persons.concat(newPerson)
+
+    // Return the newly created person 
+    response.json(newPerson)
+
+    // Print the current persons array 
+    console.log(persons)
+  })
+
 // Returns the total number of people in the phonebook and time of request. 
 app.get('/info', (request, response) => {
     const currentDateTime = new Date() 
