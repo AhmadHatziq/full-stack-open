@@ -80,7 +80,20 @@ app.delete('/api/persons/:id', (request, response) => {
         })
     }
 
-    console.log(body)
+    // Checks if there is missing number 
+    if (!body.number) {
+        return response.status(400).json({ 
+            error: 'number missing' 
+          })
+    }
+
+    // Checks if the name already exists. 
+    const exists = persons.some(obj => obj.name === body.name); 
+    if (exists) {
+        return response.status(400).json({ 
+            error: 'name must be unique' 
+          })
+    }
     
     // Create a new person object
     const newPerson = {
