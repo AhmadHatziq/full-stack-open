@@ -44,8 +44,21 @@ app.get('/api/persons/:id', (request, response) => {
     } else {
         response.status(404).end()
     }
-
 })
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+
+    // Filter and remove the matching id 
+    persons = persons.filter(person => person.id !== id)
+  
+    // Send status 204. 
+    response.status(204).end()
+
+    // Check that persons had deleted the person. 
+    console.log(persons)
+
+  })
 
 // Returns the total number of people in the phonebook and time of request. 
 app.get('/info', (request, response) => {
