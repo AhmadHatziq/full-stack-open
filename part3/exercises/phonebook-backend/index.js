@@ -3,7 +3,16 @@ var morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
+
+// Register a custom token to display the data sent in HTTP POST requests 
+// morgan.token('type', function (req, res) { return req.headers['content-type'] })
+morgan.token('posted_data', logJsonPost = (req, res)  => {
+    if (req.method === 'POST') {
+        return JSON.stringify(req.body)
+    }
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :posted_data'))
 
 let persons = [
     { 
@@ -58,7 +67,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 
     // Check that persons had deleted the person. 
-    console.log(persons)
+    //console.log(persons)
 
   })
 
@@ -111,7 +120,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.json(newPerson)
 
     // Print the current persons array 
-    console.log(persons)
+    // console.log(persons)
   })
 
 // Returns the total number of people in the phonebook and time of request. 
