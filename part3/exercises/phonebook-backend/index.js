@@ -34,6 +34,18 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+// Returns the total number of people in the phonebook and time of request. 
+app.get('/info', (request, response) => {
+    
+    const currentDateTime = new Date() 
+    const responseHtml = `
+        <p>Phonebook has info for ${persons.length} people</p>
+        <p> ${currentDateTime.toString()}  </p>
+    `
+    response.send(responseHtml)
+
+})
+
 // Make the server listen on port 3001
 const PORT = 3001
 app.listen(PORT, () => {
