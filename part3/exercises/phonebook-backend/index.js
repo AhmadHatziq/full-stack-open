@@ -34,16 +34,27 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(person => person.id === id)
+    
+    // If there is no matching id, person is undefined 
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
+
+})
+
 // Returns the total number of people in the phonebook and time of request. 
 app.get('/info', (request, response) => {
-    
     const currentDateTime = new Date() 
     const responseHtml = `
         <p>Phonebook has info for ${persons.length} people</p>
         <p> ${currentDateTime.toString()}  </p>
     `
     response.send(responseHtml)
-
 })
 
 // Make the server listen on port 3001
