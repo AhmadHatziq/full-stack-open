@@ -1,7 +1,8 @@
 const express = require('express')
 var morgan = require('morgan')
 const app = express()
-
+const cors = require('cors')
+app.use(cors())
 app.use(express.json())
 
 // Register a custom token to display the data sent in HTTP POST requests 
@@ -18,22 +19,26 @@ let persons = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
-      "number": "040-123456"
+      "number": "040-123456", 
+      "toShow": true
     },
     { 
       "id": 2,
       "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
+      "number": "39-44-5323523", 
+      "toShow": true
     },
     { 
       "id": 3,
       "name": "Dan Abramov", 
-      "number": "12-43-234345"
+      "number": "12-43-234345", 
+      "toShow": true
     },
     { 
       "id": 4,
       "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
+      "number": "39-23-6423122", 
+      "toShow": true
     }
 ]
 
