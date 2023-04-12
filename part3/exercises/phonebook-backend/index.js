@@ -138,8 +138,8 @@ app.get('/info', (request, response) => {
     response.send(responseHtml)
 })
 
-// Make the server listen on port 3001
-const PORT = 3001
+// Make the server listen on port 3001 or the environment variable (for deployment)
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
