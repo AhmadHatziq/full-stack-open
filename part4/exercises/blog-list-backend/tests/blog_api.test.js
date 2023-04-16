@@ -12,6 +12,33 @@ beforeEach(async() => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
+test('Verifies if new blogs are created with missing title & url, there is a 400 response', async () => {
+  const blogMissingTitle = {
+    _id: '5a422a851b54a676234d17f2',
+    author: 'Author',
+    url: 'google.com',
+    likes: 4, 
+    __v: 0
+  }
+  await api
+    .post('/api/blogs')
+    .send(blogMissingTitle)
+    .expect(400)
+
+    const blogMissingUrl = {
+      _id: '5a422a851b54a676234d17f2',
+      title: 'Title', 
+      author: 'Author',
+      likes: 4, 
+      __v: 0
+    }
+    await api
+    .post('/api/blogs')
+    .send(blogMissingUrl)
+    .expect(400)
+
+})
+
 test('Verifies that if the likes property is missing, it will default to 0', async () => {
   // Create a newBlog with missing 'likes' property
   const newBlog = {
