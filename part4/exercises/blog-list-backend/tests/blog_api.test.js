@@ -12,6 +12,24 @@ beforeEach(async() => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
+test('Verifies that if the likes property is missing, it will default to 0', async () => {
+  // Create a newBlog with missing 'likes' property
+  const newBlog = {
+    _id: '5a422a851b54a676234d17f1',
+    title: 'Like is missing',
+    author: 'Unlikable',
+    url: 'google.com',
+    __v: 0
+  }
+
+  // POST the newBlog
+  const createdBlog = (await api.post('/api/blogs').send(newBlog)).body
+  
+  // Verify that createdBlog has liked set to 0
+  expect(Number(createdBlog.likes)).toEqual(0)
+
+})
+
 test('Verifies that a new blog post can be added', async () => {
   const newBlog = {
     _id: '5a422a851b54a676234d17f6',
