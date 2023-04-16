@@ -4,12 +4,25 @@ const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./list_helper.test')
-const blog = require('../models/blog')
 
 // Clear & initialize data for the tests DB. 
 beforeEach(async() => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+})
+
+test('Deleting a blog post given the ID', async () => {
+  const blogToDelete = helper.initialBlogs[0]
+
+  await api 
+    .delete(`/api/blogs/${blogToDelete._id}`)
+    .expect(204)
+
+  const blogsInDb = (await Blog.find({})).map(blog => blog.toJSON())
+  expect(blogsInDb).toHaveLength(helper.initialBlogs.length - 1)
+
+  const blogTitles = blogsInDb.map(blog => blog.title)
+  expect(blogTitles).not.toContain(blogToDelete.title)
 })
 
 test('Verifies if new blogs are created with missing title & url, there is a 400 response', async () => {
