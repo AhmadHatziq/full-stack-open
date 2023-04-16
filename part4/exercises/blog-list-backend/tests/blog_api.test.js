@@ -11,6 +11,26 @@ beforeEach(async() => {
   await Blog.insertMany(helper.initialBlogs)
 })
 
+test('Update likes', async () => {
+  const blogToUpdate = helper.initialBlogs[0]
+  const updatedBlog = {
+    title: blogToUpdate.title, 
+    author: blogToUpdate.author, 
+    url: blogToUpdate.url, 
+    likes: 9999
+  }
+
+  await api 
+    .put(`/api/blogs/${blogToUpdate._id}`)
+    .send(updatedBlog)
+    .expect(200)
+
+  const latestBlogFromDb = await Blog.findById(blogToUpdate._id)
+
+  expect(Number(latestBlogFromDb.likes)).toEqual(9999)
+  
+})
+
 test('Deleting a blog post given the ID', async () => {
   const blogToDelete = helper.initialBlogs[0]
 
