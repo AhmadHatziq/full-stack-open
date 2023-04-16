@@ -60,6 +60,28 @@ const blogs_36_likes = [
   }  
 ]
 
+describe('Find author with highest cumulative likes', () => {
+
+  test('Single blog, should return same author', () => {
+    const expectedResult = {
+      author: listWithOneBlog[0].author, 
+      likes: listWithOneBlog[0].likes 
+    }
+    const result = listHelper.mostLikes(listWithOneBlog)
+    expect(result).toEqual(expectedResult)
+  })
+
+  test('List of blogs, should return Edsger', () => {
+    const expectedResult = {
+      author: "Edsger W. Dijkstra", 
+      likes: 17
+    }
+    const result = listHelper.mostLikes(blogs_36_likes)
+    expect(result).toEqual(expectedResult)
+  })
+
+})
+
 describe('Find author with most blogs', () => {
   test('Singe blog. Should return same author and count of 1', () => {
     const expectedResult = {

@@ -1,4 +1,33 @@
 
+// Receives a list of blogs, returns the author with the most cumulative likes. 
+// Returns: {author: "XXX", likes: 17}
+const mostLikes = (blogs) => {
+
+  // Iterate and accumulate likes for each author 
+  authorLikes = {}
+  blogs.forEach(blog => {
+    currentAuthor = blog.author 
+    currentLikes = blog.likes 
+
+    // Accumulate likes for each author 
+    if (Object.keys(authorLikes).includes(currentAuthor)) {
+      authorLikes[currentAuthor] += currentLikes
+    } else {
+      authorLikes[currentAuthor] = currentLikes
+    }
+  })
+
+  // Find the author with the highest cumulative likes. 
+  let highestLikes = null 
+  for (const author in authorLikes) {
+    if (highestLikes === null || authorLikes[author] > highestLikes.likes) {
+      highestLikes = {author: author, likes:  authorLikes[author]}
+    }
+  }
+
+  return highestLikes 
+
+}
 
 // Receives a list of blogs, returns the author with the most blogs and the corresponding count. 
 // Returned: {author: "Robert C. Martin", blogs: 3}
@@ -59,5 +88,5 @@ const dummy = (blogs) => {
 }
 
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs 
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
