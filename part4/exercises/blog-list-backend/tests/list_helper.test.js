@@ -9,7 +9,7 @@ const listWithOneBlog = [
     __v: 0
   }
 ]
-const blogs_36_likes = [
+const initialBlogs = [
   {
     _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
@@ -76,7 +76,7 @@ describe('Find author with highest cumulative likes', () => {
       author: "Edsger W. Dijkstra", 
       likes: 17
     }
-    const result = listHelper.mostLikes(blogs_36_likes)
+    const result = listHelper.mostLikes(initialBlogs)
     expect(result).toEqual(expectedResult)
   })
 
@@ -97,7 +97,7 @@ describe('Find author with most blogs', () => {
       author: 'Robert C. Martin', 
       blogs: 3
     }
-    const result = listHelper.mostBlogs(blogs_36_likes)
+    const result = listHelper.mostBlogs(initialBlogs)
     expect(result).toEqual(expectedResult)
   })
 })
@@ -118,7 +118,7 @@ describe('highest likes', () => {
       likes: 12,
       __v: 0
     }
-    const result = listHelper.favoriteBlog(blogs_36_likes)
+    const result = listHelper.favoriteBlog(initialBlogs)
     expect(result).toEqual(expectedBlog)
     
   })
@@ -132,8 +132,12 @@ describe('total likes', () => {
   })
 
   test('A list of blogs, where sum is 36 likes.', () => {
-    const result = listHelper.totalLikes(blogs_36_likes)
+    const result = listHelper.totalLikes(initialBlogs)
     expect(result).toBe(36)
   })
 
 })
+
+module.exports = {
+  initialBlogs
+}
