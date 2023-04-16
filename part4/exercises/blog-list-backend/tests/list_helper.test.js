@@ -102,7 +102,7 @@ describe('Find author with most blogs', () => {
   })
 })
 
-describe('highest likes', () => {
+describe('Highest likes', () => {
 
   test('Single blog. Should return the same blog.', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
@@ -124,7 +124,7 @@ describe('highest likes', () => {
   })
 })
 
-describe('total likes', () => {
+describe('Total likes', () => {
   
   test('List contains 1 blog with 5 likes.', () => {
     const result = listHelper.totalLikes(listWithOneBlog)
