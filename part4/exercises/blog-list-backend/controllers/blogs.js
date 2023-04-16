@@ -1,3 +1,4 @@
+const logger = require('../utils/logger')
 const blogsRouter = require('express').Router() 
 const Blog = require('../models/blog')
 
@@ -11,12 +12,12 @@ blogsRouter.get('/', (request, response) => {
 
 blogsRouter.post('/', (request, response) => {
   const blog = new Blog(request.body)
-  console.log(`Received via POST: ${JSON.stringify(blog)}`)
+  logger.info(`Received via POST: ${JSON.stringify(blog)}`)
 
   blog
     .save()
     .then(result => {
-      console.log(`Saved new Blog: ${JSON.stringify(blog)}`)
+      logger.info(`Saved new Blog: ${JSON.stringify(blog)}`)
       response.status(201).json(result)
     })
    
