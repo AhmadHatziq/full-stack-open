@@ -14,15 +14,6 @@ blogsRouter.post('/', async (request, response) => {
   const newBlog = await blog.save() 
   logger.info(`Saved new Blog: ${JSON.stringify(newBlog)}`)
   response.status(201).json(newBlog)
-
-  /*
-  blog
-    .save()
-    .then(result => {
-      logger.info(`Saved new Blog: ${JSON.stringify(blog)}`)
-      response.status(201).json(result)
-    })
-  */ 
    
 })
 
