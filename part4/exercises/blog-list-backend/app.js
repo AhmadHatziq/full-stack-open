@@ -1,10 +1,10 @@
 // Import statements 
-require('dotenv').config() 
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogRouter = require('./controllers/blogs')
+const config = require('./utils/config')
 
 // App declarations 
 const app = express() 
@@ -13,7 +13,7 @@ app.use(express.json())
 app.use('/api/blogs', blogRouter)
 
 // Connect to MongoDB 
-const mongoUrl = process.env.MONGODB_URI
+const mongoUrl = config.MONGODB_URI
 console.log('connecting to', mongoUrl)
 mongoose.connect(mongoUrl)
   .then( () => {
