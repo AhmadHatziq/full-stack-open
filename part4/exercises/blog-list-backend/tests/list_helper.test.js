@@ -60,6 +60,26 @@ const blogs_36_likes = [
   }  
 ]
 
+describe('Find author with most blogs', () => {
+  test('Singe blog. Should return same author and count of 1', () => {
+    const expectedResult = {
+      author: listWithOneBlog[0].author, 
+      blogs: listWithOneBlog.length 
+    }
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(result).toEqual(expectedResult)
+  })
+
+  test('List of blogs, should return Robert C. Martin with 3 blogs', () => {
+    const expectedResult = {
+      author: 'Robert C. Martin', 
+      blogs: 3
+    }
+    const result = listHelper.mostBlogs(blogs_36_likes)
+    expect(result).toEqual(expectedResult)
+  })
+})
+
 describe('highest likes', () => {
 
   test('Single blog. Should return the same blog.', () => {
