@@ -12,8 +12,8 @@ blogsRouter.post('/', async (request, response) => {
   logger.info(`Received via POST: ${JSON.stringify(blog)}`)
 
   const newBlog = await blog.save() 
-  logger.info(`Saved new Blog: ${JSON.stringify(blog)}`)
-  response.status(201).json(result)
+  logger.info(`Saved new Blog: ${JSON.stringify(newBlog)}`)
+  response.status(201).json(newBlog)
 
   /*
   blog
