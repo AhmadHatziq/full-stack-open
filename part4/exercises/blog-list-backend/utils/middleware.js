@@ -22,6 +22,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: error.message })
   } else if (error.name ===  'JsonWebTokenError') {
     return response.status(400).send({ error: error.message })
+  } else if (error.name === 'OwnerError') {
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)
@@ -38,8 +40,6 @@ const tokenExtractor = (request, response, next) => {
   if (authorization && authorization.startsWith('bearer ')) {
     request.token = authorization.replace('bearer ', '')
   }
-
-  console.log('Middleware token: ', request.token)
 
   next() 
 }

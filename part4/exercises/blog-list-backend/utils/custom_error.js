@@ -7,6 +7,13 @@ class ValidationError extends Error {
   }
 }
 
+class OwnerError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'OwnerError';
+  }
+}
+
 module.exports = {
-  ValidationError
+  ValidationError, OwnerError
 }
