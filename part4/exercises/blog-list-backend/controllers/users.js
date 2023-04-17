@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs')
 
 // GET route for all users
 usersRouter.get('/', async (request, response) => {
-  logger.info('Hello from users')
-  
+  const users = await User.find({})
+  response.json(users)
 })
 
 // POST route 
