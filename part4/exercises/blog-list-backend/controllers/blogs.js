@@ -1,6 +1,7 @@
 const logger = require('../utils/logger')
 const blogsRouter = require('express').Router() 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 // GET route for all blog posts
 blogsRouter.get('/', async (request, response) => {
@@ -10,10 +11,15 @@ blogsRouter.get('/', async (request, response) => {
 
 // POST route to submit a new blog post
 blogsRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body)
-  logger.info(`Received via POST: ${JSON.stringify(blog)}`)
+  logger.info(`Received via POST: ${JSON.stringify(request.body)}`)
 
-  const newBlog = await blog.save() 
+  // Create a blog object with the user id
+  const allUsers = (await User.find({})).map(u => u.toJSON())
+  const firstUser = allUsers[0]
+  const blogWithUser = new Blog({...request.body, user: firstUser.id})
+
+  // Save the blog with the user
+  const newBlog = await blogWithUser.save() 
   logger.info(`Saved new Blog: ${JSON.stringify(newBlog)}`)
   response.status(201).json(newBlog)
    
