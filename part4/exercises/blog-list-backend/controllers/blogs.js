@@ -4,19 +4,6 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-// Returns the JWT token from the authentication header bearer scheme 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  console.log(authorization)
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  if (authorization && authorization.startsWith('bearer ')) {
-    return authorization.replace('bearer ', '')
-  }
-  return null
-}
-
 // GET route for all blog posts
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user')
@@ -28,17 +15,16 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   logger.info(`Received via POST: ${JSON.stringify(request.body)}`)
 
-  // Gets the user from the JWT token
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
+  // Extract the token using the middleware tokenExtractor
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+
+  // Extract the user of the token
   const user = await User.findById(decodedToken.id)
 
   // Create a blog object with the user id
   const blogWithUser = new Blog({...request.body, user: user.id})
 
-  // Save the blog with the user, update the user 
+  // Save the blog with the user & update the user 
   const newBlog = await blogWithUser.save() 
   user.blogs = user.blogs.concat(newBlog.id)
   await user.save()

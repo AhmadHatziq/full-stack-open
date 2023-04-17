@@ -27,8 +27,26 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+// Extracts the token from the Authorization header and place it into the token field of the request object. 
+const tokenExtractor = (request, response, next) => {
+
+  const authorization = request.get('authorization')
+  request.token = null 
+  if (authorization && authorization.startsWith('Bearer ')) {
+    request.token = authorization.replace('Bearer ', '')
+  }
+  if (authorization && authorization.startsWith('bearer ')) {
+    request.token = authorization.replace('bearer ', '')
+  }
+
+  console.log('Middleware token: ', request.token)
+
+  next() 
+}
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler, 
+  tokenExtractor 
 }
