@@ -1,4 +1,6 @@
 const listHelper = require('../utils/list_helper')
+const User = require('../models/user')
+
 const listWithOneBlog = [
   {
     _id: '5a422aa71b54a676234d17f8',
@@ -138,6 +140,12 @@ describe('Total likes', () => {
 
 })
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
+}
+
+
 module.exports = {
-  initialBlogs
+  initialBlogs, usersInDb
 }
