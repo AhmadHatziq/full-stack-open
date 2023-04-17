@@ -3,6 +3,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const customErrorClasses = require('../utils/custom_error')
 
 // GET route for all blog posts
 blogsRouter.get('/', async (request, response) => {
@@ -52,16 +53,22 @@ blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 
   // If both IDs do not match, abort. 
-  console.log(blog.user.toString())
-  console.log(user.id.toString())
+  if ( blog.user.toString() !== user.id.toString() ) {
+    logger.info(`Failed delete attempt by user: ${user.name}`)
+    throw new customErrorClasses.OwnerError('Deletion attempt by a non-owner')
+  }
 
-  // Procees with deleting
-
-  /*
+  // Procees with deleting from the Blog and User 
   await Blog.findByIdAndRemove(request.params.id)
+  user.blogs = user.blogs.filter(id => {
+    if (id.toString() !== request.params.id) {
+      return id
+    }
+  })
+  await user.save()
   logger.info(`Deleted blog ID: ${request.params.id}`)
   response.status(204).end()
-  */
+  
 })
 
 // PUT route to update a blog post. 
