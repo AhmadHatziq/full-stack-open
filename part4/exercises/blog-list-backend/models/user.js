@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -10,6 +11,7 @@ const userSchema = new mongoose.Schema({
       }, 
       message: props => `${props.value} must be at ≥ 3 characters long!`
     }, 
+    unique: true
   },
   name: String,
   passwordHash: {
@@ -23,6 +25,8 @@ const userSchema = new mongoose.Schema({
     }
   ],
 })
+
+userSchema.plugin(uniqueValidator)
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
