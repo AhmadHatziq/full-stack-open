@@ -11,6 +11,14 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+// GET route for a single blog post 
+blogsRouter.get('/:id', async (request, response) => {
+  const blogId = request.params.id
+  const blog = await Blog.findById(blogId)
+    
+  response.json(blog)
+})
+
 // POST route to submit a new blog post
 blogsRouter.post('/', async (request, response) => {
   logger.info(`Received via POST: ${JSON.stringify(request.body)}`)
@@ -35,9 +43,25 @@ blogsRouter.post('/', async (request, response) => {
 
 // DELETE route to delete a particular post 
 blogsRouter.delete('/:id', async (request, response) => {
+
+  // Extract the user from the token. 
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+
+  // Extract the blog 
+  const blog = await Blog.findById(request.params.id)
+
+  // If both IDs do not match, abort. 
+  console.log(blog.user.toString())
+  console.log(user.id.toString())
+
+  // Procees with deleting
+
+  /*
   await Blog.findByIdAndRemove(request.params.id)
   logger.info(`Deleted blog ID: ${request.params.id}`)
   response.status(204).end()
+  */
 })
 
 // PUT route to update a blog post. 
