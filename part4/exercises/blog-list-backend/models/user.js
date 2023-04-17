@@ -1,9 +1,21 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-  username: String,
+  username: {
+    type: String, 
+    required: true, 
+    validate: {
+      validator: function(v) {
+        return v.length >= 3 // Must be at least 3 characters long 
+      }, 
+      message: props => `${props.value} must be at ≥ 3 characters long!`
+    }, 
+  },
   name: String,
-  passwordHash: String,
+  passwordHash: {
+    type: String, 
+    required: true 
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
