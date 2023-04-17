@@ -19,8 +19,11 @@ blogsRouter.post('/', async (request, response) => {
   const firstUser = allUsers[0]
   const blogWithUser = new Blog({...request.body, user: firstUser.id})
 
-  // Save the blog with the user
+  // Save the blog with the user, update the user 
   const newBlog = await blogWithUser.save() 
+  const ownerUser = await User.findById(firstUser.id)
+  ownerUser.blogs = ownerUser.blogs.concat(newBlog.id)
+  await ownerUser.save()
   logger.info(`Saved new Blog: ${JSON.stringify(newBlog)}`)
   response.status(201).json(newBlog)
    
