@@ -1,4 +1,5 @@
 const logger = require('./logger')
+const User = require('../models/user')
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -29,6 +30,24 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+// Extracts the user from the token and sets it to the request object. 
+// Used to find out who the user holding a specific token is. 
+const userExtractor = async (request, response, next) => {
+
+  if (request.token) {
+
+    logger.info(JSON.stringify(request.token))
+    logger.info(`Extracted user ${JSON.stringify(user)} from token`)
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+    // request.user = user 
+
+    
+  }
+
+  next() 
+}
+
 // Extracts the token from the Authorization header and place it into the token field of the request object. 
 const tokenExtractor = (request, response, next) => {
 
@@ -48,5 +67,6 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler, 
-  tokenExtractor 
+  tokenExtractor, 
+  userExtractor 
 }
