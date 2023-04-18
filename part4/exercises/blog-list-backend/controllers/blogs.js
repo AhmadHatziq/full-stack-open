@@ -52,6 +52,14 @@ blogsRouter.delete('/:id', async (request, response) => {
   // Extract the blog 
   const blog = await Blog.findById(request.params.id)
 
+  // Abort if blog does not exist  
+  if (!blog) {
+    logger.info('Specified blog not found')
+    return response.status(404).json({
+      error: 'Specified blog not found'
+    })
+  }
+
   // If both IDs do not match, abort. 
   if ( blog.user.toString() !== user.id.toString() ) {
     logger.info(`Failed delete attempt by user: ${user.name}`)
