@@ -1,5 +1,6 @@
 const logger = require('./logger')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -37,12 +38,13 @@ const userExtractor = async (request, response, next) => {
   if (request.token) {
 
     logger.info(JSON.stringify(request.token))
-    // logger.info(`Extracted user ${JSON.stringify(user)} from token`)
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    // const user = await User.findById(decodedToken.id)
-    // request.user = user 
-
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+    logger.info(`Extracted user ${JSON.stringify(user.username)} from token`)
+    request.user = user 
     
+  } else {
+    logger.info('Unable to obtain token from userExtractor')
   }
 
   next() 
@@ -51,7 +53,6 @@ const userExtractor = async (request, response, next) => {
 // Extracts the token from the Authorization header and place it into the token field of the request object. 
 const tokenExtractor = (request, response, next) => {
 
-  logger.info('Token extractor: ')
   const authorization = request.get('authorization')
   request.token = null 
   if (authorization && authorization.startsWith('Bearer ')) {
