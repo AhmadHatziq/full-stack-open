@@ -75,7 +75,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   
 })
 
-// PUT route to update a blog post. 
+// PUT route to update a blog post based on blog ID. 
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body 
   const id = request.params.id 
