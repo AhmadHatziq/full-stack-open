@@ -33,6 +33,7 @@ const errorHandler = (error, request, response, next) => {
 
 // Extracts the user from the token and sets it to the request object. 
 // Used to find out who the user holding a specific token is. 
+// Using request.token, sets request.user 
 const userExtractor = async (request, response, next) => {
 
   if (request.token) {
@@ -50,7 +51,8 @@ const userExtractor = async (request, response, next) => {
   next() 
 }
 
-// Extracts the token from the Authorization header and place it into the token field of the request object. 
+// Extracts the token from the Authorization header and place it into the token field of the request object.
+// Sets requqest.token  
 const tokenExtractor = (request, response, next) => {
 
   const authorization = request.get('authorization')

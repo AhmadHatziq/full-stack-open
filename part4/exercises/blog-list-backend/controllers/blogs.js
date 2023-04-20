@@ -24,11 +24,8 @@ blogsRouter.get('/:id', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   logger.info(`Received via POST: ${JSON.stringify(request.body)}`)
 
-  // Extract the token using the middleware tokenExtractor
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
-  // Extract the user of the token
-  const user = await User.findById(decodedToken.id)
+  // Extract user via the middleware 
+  const user = request.user 
 
   // Create a blog object with the user id
   const blogWithUser = new Blog({...request.body, user: user.id})
@@ -45,9 +42,8 @@ blogsRouter.post('/', async (request, response) => {
 // DELETE route to delete a particular post 
 blogsRouter.delete('/:id', async (request, response) => {
 
-  // Extract the user from the token. 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  const user = await User.findById(decodedToken.id)
+  // Extract the user (via middleware)
+  const user = request.user 
 
   // Extract the blog 
   const blog = await Blog.findById(request.params.id)
