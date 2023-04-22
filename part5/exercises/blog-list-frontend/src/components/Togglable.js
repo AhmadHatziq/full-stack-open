@@ -7,6 +7,7 @@ const Togglable = forwardRef((props, ref) => {
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
+  // Used to toggle the Boolean visibility variable 
   const toggleVisibility = () => {
     setVisible(!visible)
   }
@@ -19,6 +20,7 @@ const Togglable = forwardRef((props, ref) => {
     }
   })
 
+  // Use props.children to automatically render any child components 
   return (
     <div>
       <div style={hideWhenVisible}>
