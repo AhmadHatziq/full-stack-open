@@ -193,9 +193,9 @@ const App = () => {
           blogAuthor={blogAuthor} 
           blogUrl={blogUrl} 
           handleSubmit={handleNewBlog}
-          handleTitleChange={({ target }) => setBlogTitle(target.value)}
-          handleAuthorChange={({ target }) => setBlogAuthor(target.value)}
-          handleUrlChange={({ target }) => setBlogUrl(target.value)}
+          handleTitleChange={setBlogTitle}
+          handleAuthorChange={setBlogAuthor}
+          handleUrlChange={setBlogUrl}
           />
       }
 
