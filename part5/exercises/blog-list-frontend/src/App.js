@@ -29,6 +29,7 @@ const App = () => {
     if (userJSON) {
       const user = JSON.parse(userJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -57,7 +58,7 @@ const App = () => {
           />
         </div>
         <div>
-          title:
+          URL:
             <input
             type="text"
             value={blogUrl}
@@ -76,7 +77,20 @@ const App = () => {
     event.preventDefault() 
 
     console.log('New blog details: ', blogTitle, blogAuthor, blogUrl)
+    const newBlogObject = {
+      "title": blogTitle, 
+      "author": blogAuthor, 
+      "url": blogUrl
+    }
 
+    // Save the new blog details & update front end / blogs 
+    const newBlog = await blogService.create(newBlogObject)
+    setBlogs(blogs.concat(newBlog))
+    setBlogTitle('')
+    setBlogAuthor('')
+    setBlogUrl('')
+
+    console.log('Saved new blog')  
   }
 
   // Returns the user login form 
@@ -118,6 +132,7 @@ const App = () => {
 
       // Save credentials 
       setUser(user)
+      blogService.setToken(user.token)
       window.localStorage.setItem('user', JSON.stringify(user))
 
       // Reset input fields
