@@ -74,7 +74,7 @@ const App = () => {
 
       {user === null ? 
         loginForm() : 
-        <div>Welcome {JSON.stringify(user)}</div>
+        <div>Welcome {user.username} !</div>
       }
 
       <h2>Blogs</h2>
