@@ -16,6 +16,7 @@ const App = () => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
+  const newBlogFormRef = useRef() 
 
   // Loads blogs via GET
   useEffect(() => {
@@ -164,6 +165,9 @@ const App = () => {
     setBlogTitle('')
     setBlogAuthor('')
     setBlogUrl('')
+
+    // Hide the form 
+    newBlogFormRef.current.toggleVisibility()
   }
 
   return (
@@ -188,7 +192,7 @@ const App = () => {
       {user === null ? 
         null 
         : 
-        <Togglable buttonLabel='Create new blog post'>
+        <Togglable buttonLabel='Create new blog post' ref={newBlogFormRef}>
           <NewBlogForm
             blogTitle={blogTitle}
             blogAuthor={blogAuthor} 
