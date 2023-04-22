@@ -1,20 +1,25 @@
+import { useState } from 'react'
 
 // Component which returns the form used to input a new blog post 
 const NewBlogForm = ({
-  blogTitle, blogAuthor, blogUrl, 
-  handleSubmit, handleTitleChange, handleAuthorChange, handleUrlChange
+  handleSubmit
 }) => {
+
+  const [blogTitle, setBlogTitle] = useState('')
+  const [blogAuthor, setBlogAuthor] = useState('')
+  const [blogUrl, setBlogUrl] = useState('')
+
   return (
     <>
       <h1>create new blog post</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => handleSubmit(event, blogTitle, setBlogTitle, blogAuthor, setBlogAuthor, blogUrl, setBlogUrl)}>
       <div>
         title:
           <input
           type="text"
           value={blogTitle}
           name="blogTitle"
-          onChange={({ target }) => {handleTitleChange(target.value)}}
+          onChange={({ target }) => {setBlogTitle(target.value)}}
         />
       </div>
       <div>
@@ -23,7 +28,7 @@ const NewBlogForm = ({
           type="text"
           value={blogAuthor}
           name="blogAuthor"
-          onChange={({ target }) => {handleAuthorChange(target.value)}}
+          onChange={({ target }) => {setBlogAuthor(target.value)}}
         />
       </div>
       <div>
@@ -32,7 +37,7 @@ const NewBlogForm = ({
           type="text"
           value={blogUrl}
           name="blogUrl"
-          onChange={({ target }) => {handleUrlChange(target.value)}}
+          onChange={({ target }) => {setBlogUrl(target.value)}}
         />
       </div>
       <button type="submit">create</button>

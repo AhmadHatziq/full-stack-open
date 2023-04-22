@@ -13,9 +13,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [notificationColor, setNotificationColor] = useState('green')
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
+
   const newBlogFormRef = useRef() 
 
   // Loads blogs via GET
@@ -98,7 +96,7 @@ const App = () => {
   }
 
   // Handles logic for submitting a new blog post 
-  const handleNewBlog = async (event) => {
+  const handleNewBlog = async (event, blogTitle, setBlogTitle, blogAuthor, setBlogAuthor, blogUrl, setBlogUrl) => {
     event.preventDefault() 
 
     console.log('New blog details: ', blogTitle, blogAuthor, blogUrl)
@@ -155,13 +153,7 @@ const App = () => {
         : 
         <Togglable buttonLabel='Create new blog post' ref={newBlogFormRef}>
           <NewBlogForm
-            blogTitle={blogTitle}
-            blogAuthor={blogAuthor} 
-            blogUrl={blogUrl} 
             handleSubmit={handleNewBlog}
-            handleTitleChange={setBlogTitle}
-            handleAuthorChange={setBlogAuthor}
-            handleUrlChange={setBlogUrl}
             />
         </Togglable>
       }
