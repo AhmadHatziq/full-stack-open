@@ -74,7 +74,7 @@ const App = () => {
 
       {user === null ? 
         loginForm() : 
-        <div>Welcome {user.username} !</div>
+        <div>Welcome! {user.username} logged in</div>
       }
 
       <h2>Blogs</h2>
