@@ -92,7 +92,17 @@ const App = () => {
 
       {user === null ? 
         loginForm() : 
-        <div>Welcome! {user.username} logged in</div>
+        <div>
+          Welcome! {user.username} logged in 
+          <button 
+            type="button"
+            onClick={({ event }) => {
+              window.localStorage.removeItem('user')
+              setUser(null)
+            }}>
+              logout
+          </button>
+        </div>
       }
 
       <h2>Blogs</h2>
