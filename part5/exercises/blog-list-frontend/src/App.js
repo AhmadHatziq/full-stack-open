@@ -9,7 +9,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationColor, setNotificationColor] = useState('green')
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
@@ -83,14 +84,24 @@ const App = () => {
       "url": blogUrl
     }
 
-    // Save the new blog details & update front end / blogs 
+    // Save the new blog details & update front end blogs 
     const newBlog = await blogService.create(newBlogObject)
     setBlogs(blogs.concat(newBlog))
+
+    // Notify the user of the successful blog post creation 
+    setNotificationColor('green')
+    setNotificationMessage(`A new blog titled '${blogTitle}' by ${blogAuthor} is added`)
+    console.log('Saved new blog') 
+
+    // Removes the notification message after some time 
+    setTimeout(() => {
+    setNotificationMessage(null)
+    }, 5000)
+    
+    // Clear blog input fields
     setBlogTitle('')
     setBlogAuthor('')
     setBlogUrl('')
-
-    console.log('Saved new blog')  
   }
 
   // Returns the user login form 
@@ -140,18 +151,22 @@ const App = () => {
       setPassword('')
 
     } catch (exception) {
-      setErrorMessage('Invalid credentials')
+
+      // Display an error message upon failed login attempt 
+      setNotificationMessage('wrong username or password')
+      setNotificationColor('red')
       console.log('Failed login for ', username)
+
+      // Removes the notification message after some time 
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotificationMessage(null)
       }, 5000)
     }
-
   }
 
   return (
     <div>
-      <Notification message={errorMessage}/>
+      <Notification message={notificationMessage} notificationColor={notificationColor}/>
 
       {user === null ? 
         loginForm() : 
