@@ -97,45 +97,6 @@ const App = () => {
     }
   }
 
-   // Returns the 'create new blog' form
-   const newBlogForm = () => {
-    return (
-      <>
-        <h1>create new blog post</h1>
-        <form onSubmit={handleNewBlog}>
-        <div>
-          title:
-            <input
-            type="text"
-            value={blogTitle}
-            name="blogTitle"
-            onChange={({ target }) => setBlogTitle(target.value)}
-          />
-        </div>
-        <div>
-          author:
-            <input
-            type="text"
-            value={blogAuthor}
-            name="blogAuthor"
-            onChange={({ target }) => setBlogAuthor(target.value)}
-          />
-        </div>
-        <div>
-          URL:
-            <input
-            type="text"
-            value={blogUrl}
-            name="blogUrl"
-            onChange={({ target }) => setBlogUrl(target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
-        </form>
-      </>
-    )
-  }
-
   // Handles logic for submitting a new blog post 
   const handleNewBlog = async (event) => {
     event.preventDefault() 
