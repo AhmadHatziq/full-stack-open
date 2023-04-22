@@ -11,6 +11,8 @@ const Togglable = forwardRef((props, ref) => {
     setVisible(!visible)
   }
 
+  // The useImperativeHandle() hook is used to make the toggleVisibility function available outside of the 
+  // component. 
   useImperativeHandle(ref, () => {
     return {
       toggleVisibility

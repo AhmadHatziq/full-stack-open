@@ -188,15 +188,17 @@ const App = () => {
       {user === null ? 
         null 
         : 
-        <NewBlogForm
-          blogTitle={blogTitle}
-          blogAuthor={blogAuthor} 
-          blogUrl={blogUrl} 
-          handleSubmit={handleNewBlog}
-          handleTitleChange={setBlogTitle}
-          handleAuthorChange={setBlogAuthor}
-          handleUrlChange={setBlogUrl}
-          />
+        <Togglable buttonLabel='Create new blog post'>
+          <NewBlogForm
+            blogTitle={blogTitle}
+            blogAuthor={blogAuthor} 
+            blogUrl={blogUrl} 
+            handleSubmit={handleNewBlog}
+            handleTitleChange={setBlogTitle}
+            handleAuthorChange={setBlogAuthor}
+            handleUrlChange={setBlogUrl}
+            />
+        </Togglable>
       }
 
 
