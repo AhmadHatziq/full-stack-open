@@ -10,6 +10,9 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [blogTitle, setBlogTitle] = useState('')
+  const [blogAuthor, setBlogAuthor] = useState('')
+  const [blogUrl, setBlogUrl] = useState('')
 
   // Loads blogs via GET
   useEffect(() => {
@@ -27,8 +30,54 @@ const App = () => {
       const user = JSON.parse(userJSON)
       setUser(user)
     }
-  }, 
-    [])
+  }, [])
+
+  // Returns the 'create new blog' form
+  const newBlogForm = () => {
+    return (
+      <>
+        <h1>create new blog post</h1>
+        <form onSubmit={handleNewBlog}>
+        <div>
+          title:
+            <input
+            type="text"
+            value={blogTitle}
+            name="blogTitle"
+            onChange={({ target }) => setBlogTitle(target.value)}
+          />
+        </div>
+        <div>
+          author:
+            <input
+            type="text"
+            value={blogAuthor}
+            name="blogAuthor"
+            onChange={({ target }) => setBlogAuthor(target.value)}
+          />
+        </div>
+        <div>
+          title:
+            <input
+            type="text"
+            value={blogUrl}
+            name="blogUrl"
+            onChange={({ target }) => setBlogUrl(target.value)}
+          />
+        </div>
+        <button type="submit">create</button>
+        </form>
+      </>
+    )
+  }
+
+  // Handles logic for submitting a new blog post 
+  const handleNewBlog = async (event) => {
+    event.preventDefault() 
+
+    console.log('New blog details: ', blogTitle, blogAuthor, blogUrl)
+
+  }
 
   // Returns the user login form 
   const loginForm = () => (
@@ -54,7 +103,6 @@ const App = () => {
       <button type="submit">login</button>
     </form>      
   )
-
 
   // Handles logic for user login form 
   const handleLogin = async (event) => {
@@ -103,6 +151,11 @@ const App = () => {
               logout
           </button>
         </div>
+      }
+
+      {user === null ? 
+        null : newBlogForm()
+        
       }
 
       <h2>Blogs</h2>
