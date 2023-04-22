@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Togglable from './components/Togglable'
+import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -35,8 +36,68 @@ const App = () => {
     }
   }, [])
 
-  // Returns the 'create new blog' form
-  const newBlogForm = () => {
+  // Returns the user login form 
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
+      <div>
+        username
+          <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </div>
+      <div>
+        password
+          <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>      
+  )
+
+  // Handles logic for user login form 
+  const handleLogin = async (event) => {
+    event.preventDefault() 
+    console.log('logging in with ', username, password)
+    
+    try {
+      const user = await loginService.login({
+        'username': username, 
+        'password': password
+      })
+      console.log('Successful login ', user)
+
+      // Save credentials 
+      setUser(user)
+      blogService.setToken(user.token)
+      window.localStorage.setItem('user', JSON.stringify(user))
+
+      // Reset input fields
+      setUsername('')
+      setPassword('')
+
+    } catch (exception) {
+
+      // Display an error message upon failed login attempt 
+      setNotificationMessage('wrong username or password')
+      setNotificationColor('red')
+      console.log('Failed login for ', username)
+
+      // Removes the notification message after some time 
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
+    }
+  }
+
+   // Returns the 'create new blog' form
+   const newBlogForm = () => {
     return (
       <>
         <h1>create new blog post</h1>
@@ -105,66 +166,6 @@ const App = () => {
     setBlogUrl('')
   }
 
-  // Returns the user login form 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>      
-  )
-
-  // Handles logic for user login form 
-  const handleLogin = async (event) => {
-    event.preventDefault() 
-    console.log('logging in with ', username, password)
-    
-    try {
-      const user = await loginService.login({
-        'username': username, 
-        'password': password
-      })
-      console.log('Successful login ', user)
-
-      // Save credentials 
-      setUser(user)
-      blogService.setToken(user.token)
-      window.localStorage.setItem('user', JSON.stringify(user))
-
-      // Reset input fields
-      setUsername('')
-      setPassword('')
-
-    } catch (exception) {
-
-      // Display an error message upon failed login attempt 
-      setNotificationMessage('wrong username or password')
-      setNotificationColor('red')
-      console.log('Failed login for ', username)
-
-      // Removes the notification message after some time 
-      setTimeout(() => {
-        setNotificationMessage(null)
-      }, 5000)
-    }
-  }
-
   return (
     <div>
       <Notification message={notificationMessage} notificationColor={notificationColor}/>
@@ -185,9 +186,20 @@ const App = () => {
       }
 
       {user === null ? 
-        null : newBlogForm()
-        
+        null 
+        : 
+        <NewBlogForm
+          blogTitle={blogTitle}
+          blogAuthor={blogAuthor} 
+          blogUrl={blogUrl} 
+          handleSubmit={handleNewBlog}
+          handleTitleChange={({ target }) => setBlogTitle(target.value)}
+          handleAuthorChange={({ target }) => setBlogAuthor(target.value)}
+          handleUrlChange={({ target }) => setBlogUrl(target.value)}
+          />
       }
+
+
 
       <h2>Blogs</h2>
       {blogs.map(blog =>
