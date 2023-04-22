@@ -11,11 +11,24 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
+  // Loads blogs via GET
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
+
+  // Checks if the user is saved in localStorage at the beginning. 
+  useEffect(() => {
+    const userJSON = window.localStorage.getItem('user')
+
+    // Will only proceed if the item exists
+    if (userJSON) {
+      const user = JSON.parse(userJSON)
+      setUser(user)
+    }
+  }, 
+    [])
 
   // Returns the user login form 
   const loginForm = () => (
@@ -54,7 +67,12 @@ const App = () => {
         'password': password
       })
       console.log('Successful login ', user)
+
+      // Save credentials 
       setUser(user)
+      window.localStorage.setItem('user', JSON.stringify(user))
+
+      // Reset input fields
       setUsername('')
       setPassword('')
 
