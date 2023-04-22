@@ -17,6 +17,32 @@ const App = () => {
     )  
   }, [])
 
+  // Returns the user login form 
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
+      <div>
+        username
+          <input
+          type="text"
+          value={username}
+          name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+      </div>
+      <div>
+        password
+          <input
+          type="password"
+          value={password}
+          name="Password"
+          onChange={({ target }) => setPassword(target.value)}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>      
+  )
+
+
   // Handles logic for user login form 
   const handleLogin = async (event) => {
     event.preventDefault() 
@@ -44,29 +70,12 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage}/>
 
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      {user === null ? 
+        loginForm() : 
+        <div>Welcome {JSON.stringify(user)}</div>
+      }
 
       <h2>Blogs</h2>
       {blogs.map(blog =>
