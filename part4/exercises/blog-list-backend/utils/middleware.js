@@ -44,9 +44,7 @@ const userExtractor = async (request, response, next) => {
     logger.info(`Extracted user ${JSON.stringify(user.username)} from token`)
     request.user = user 
     
-  } else {
-    logger.info('Unable to obtain token from userExtractor')
-  }
+  } 
 
   next() 
 }
