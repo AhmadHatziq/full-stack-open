@@ -1,8 +1,6 @@
 const logger = require('../utils/logger')
 const blogsRouter = require('express').Router() 
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 const customErrorClasses = require('../utils/custom_error')
 
 // GET route for all blog posts
@@ -79,6 +77,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 })
 
 // PUT route to update a blog post based on blog ID. 
+// Used for incrementing the likes. 
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body 
   const id = request.params.id 
@@ -87,9 +86,11 @@ blogsRouter.put('/:id', async (request, response) => {
     title: body.title, 
     author: body.author, 
     url: body.url, 
-    likes: body.likes 
+    likes: parseInt(body.likes), 
+    user: body.user.id 
   }
 
+  // Update the DB with the new blog object 
   const updatedPost = await Blog.findByIdAndUpdate(id, newPost, {new: true})
   logger.info(`Updated post: ${JSON.stringify(updatedPost)}`)
   response.json(updatedPost) 
