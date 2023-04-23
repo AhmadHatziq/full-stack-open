@@ -6,6 +6,9 @@ import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import axios from 'axios'
+const baseUrl = 'http://localhost:3003/api/blogs'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -129,6 +132,29 @@ const App = () => {
     newBlogFormRef.current.toggleVisibility()
   }
 
+  // Function used to handle the logic when the 'likes' button is clicked
+  // Likes are increased by making an HTTP PUT request to the unique address of the blog post in the backend
+  const handleLikes = async (event, blog) => {
+
+    // The API for PUT needs the following properties: title, author, url, likes, user (ID)
+    // Blog ID is used to specify the specific blog endpoint. 
+    // Increment the likes by 1. 
+    const blogId = blog.id 
+    const newBlog = {
+      title: blog.title, 
+      author: blog.author, 
+      url: blog.url, 
+      likes: parseInt(blog.likes) + 1, 
+      user: blog.user
+    }
+
+    // Send the newblog data via PUT
+    const updatedBlog = await axios.put(`${baseUrl}/${blogId}`, newBlog)
+
+    // Update the state with the new updated blog object 
+
+  }
+
   return (
     <div>
       <Notification message={notificationMessage} notificationColor={notificationColor}/>
@@ -162,7 +188,7 @@ const App = () => {
 
       <h2>Blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
       )}
     </div>
   )
