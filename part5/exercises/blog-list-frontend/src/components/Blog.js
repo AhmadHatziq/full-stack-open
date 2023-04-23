@@ -10,7 +10,7 @@ const Blog = ({blog}) => {
   }
 
   // Style for the header and button div 
-  const headerStyle = {
+  const buttonParentStyle = {
     margin: 0,
     display: "flex",
     alignItems: "center",
@@ -22,7 +22,7 @@ const Blog = ({blog}) => {
   }
 
   // Style for the title 
-  const titleStyle = {
+  const buttonNeighborStyle = {
     marginRight: "10px",
   }
 
@@ -37,14 +37,22 @@ const Blog = ({blog}) => {
 
   return(
     <div style={singlePostStyle}>
-      <div style={headerStyle}>
-        <p style={titleStyle}><strong>Title:</strong> {blog.title}</p> 
+      <div style={buttonParentStyle
+  }>
+        <p style={buttonNeighborStyle
+    }><strong>Title:</strong> {blog.title}</p> 
         <button style={buttonStyle}>Click me!</button>
       </div>
       <div style={blogStyle}>
         <p><strong>Author:</strong> {blog.author}</p>
         <p><strong>URL:</strong> {blog.url}</p>
-        <p><strong>Likes:</strong> {blog.likes}</p>
+        <div style={buttonParentStyle
+    }>
+          <p style={buttonNeighborStyle
+      }><strong>Likes:</strong> {blog.likes}</p>
+          <button style={buttonStyle}>like</button>
+        </div>
+        
         <p><strong>User:</strong> {blog.user.username}</p>
       </div>
     </div>  
