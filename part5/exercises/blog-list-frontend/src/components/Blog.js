@@ -26,17 +26,27 @@ const Blog = ({blog}) => {
     marginRight: "10px",
   }
 
+  // Style for the other details 
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
   return(
     <div style={singlePostStyle}>
       <div style={headerStyle}>
         <p style={titleStyle}><strong>Title:</strong> {blog.title}</p> 
         <button style={buttonStyle}>Click me!</button>
       </div>
-      <p><strong>Author:</strong> {blog.author}</p>
-      <p><strong>URL:</strong> {blog.url}</p>
-      <p><strong>Likes:</strong> {blog.likes}</p>
-      <p><strong>User:</strong> {blog.user.username}</p>
-      
+      <div style={blogStyle}>
+        <p><strong>Author:</strong> {blog.author}</p>
+        <p><strong>URL:</strong> {blog.url}</p>
+        <p><strong>Likes:</strong> {blog.likes}</p>
+        <p><strong>User:</strong> {blog.user.username}</p>
+      </div>
     </div>  
   )
 }
