@@ -1,17 +1,44 @@
-const Blog = ({blog}) => (
-  <div  style={{ 
+const Blog = ({blog}) => {
+
+  // Style for each blog post 
+  const singlePostStyle = {
     border: "1px solid black",
-    borderRadius: "5px",
-    padding: "10px",
-    margin: "10px"
-  }}>
-    <p><strong>Title:</strong> {blog.title}</p>
-    <p><strong>Author:</strong> {blog.author}</p>
-    <p><strong>URL:</strong> {blog.url}</p>
-    <p><strong>Likes:</strong> {blog.likes}</p>
-    <p><strong>User:</strong> {blog.user.username}</p>
-    
-  </div>  
-)
+      borderRadius: "5px",
+      padding: "10px",
+      margin: "10px", 
+      
+  }
+
+  // Style for the header and button div 
+  const headerStyle = {
+    margin: 0,
+    display: "flex",
+    alignItems: "center",
+  }
+
+  // Style for the button 
+  const buttonStyle = {
+    marginLeft: "10px",
+  }
+
+  // Style for the title 
+  const titleStyle = {
+    marginRight: "10px",
+  }
+
+  return(
+    <div style={singlePostStyle}>
+      <div style={headerStyle}>
+        <p style={titleStyle}><strong>Title:</strong> {blog.title}</p> 
+        <button style={buttonStyle}>Click me!</button>
+      </div>
+      <p><strong>Author:</strong> {blog.author}</p>
+      <p><strong>URL:</strong> {blog.url}</p>
+      <p><strong>Likes:</strong> {blog.likes}</p>
+      <p><strong>User:</strong> {blog.user.username}</p>
+      
+    </div>  
+  )
+}
 
 export default Blog
