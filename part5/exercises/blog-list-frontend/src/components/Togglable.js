@@ -21,6 +21,7 @@ const Togglable = forwardRef((props, ref) => {
   })
 
   // Use props.children to automatically render any child components 
+  // By default, var is False. hideWhenVisible is shown by default. 
   return (
     <div>
       <div style={hideWhenVisible}>
