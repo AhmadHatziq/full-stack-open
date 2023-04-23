@@ -1,4 +1,22 @@
+import { useState } from 'react'
+
 const Blog = ({blog}) => {
+  // Used to toggle the visibility of the blogStyle class 
+  const [visible, setVisible] = useState(true)
+
+  // Used for the button string label 
+  const [buttonLabel, setButtonLabel] = useState("view")
+
+  // CSS styles for toggling hiding. Uses the Boolean state 
+  const visibilityStyle = {
+    display: visible ? 'block' : 'none'
+  }
+
+  // Used to toggle the Boolean visibility variable 
+  const toggleVisibility = () => {
+    setVisible(!visible)
+    setButtonLabel("hide")
+  }
 
   // Style for each blog post 
   const singlePostStyle = {
@@ -27,7 +45,7 @@ const Blog = ({blog}) => {
   }
 
   // Style for the other details 
-  const blogStyle = {
+  const blogContent = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
@@ -37,23 +55,20 @@ const Blog = ({blog}) => {
 
   return(
     <div style={singlePostStyle}>
-      <div style={buttonParentStyle
-  }>
-        <p style={buttonNeighborStyle
-    }><strong>Title:</strong> {blog.title}</p> 
-        <button style={buttonStyle}>Click me!</button>
+      <div style={buttonParentStyle}>
+        <p style={buttonNeighborStyle}><strong>Title:</strong> {blog.title}</p> 
+        <button style={buttonStyle} onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
-      <div style={blogStyle}>
-        <p><strong>Author:</strong> {blog.author}</p>
-        <p><strong>URL:</strong> {blog.url}</p>
-        <div style={buttonParentStyle
-    }>
-          <p style={buttonNeighborStyle
-      }><strong>Likes:</strong> {blog.likes}</p>
-          <button style={buttonStyle}>like</button>
+      <div style={visibilityStyle}>
+        <div style={blogContent}>
+          <p><strong>Author:</strong> {blog.author}</p>
+          <p><strong>URL:</strong> {blog.url}</p>
+          <div style={buttonParentStyle}>
+            <p style={buttonNeighborStyle}><strong>Likes:</strong> {blog.likes}</p>
+            <button style={buttonStyle}>like</button>
+          </div>
+          <p><strong>User:</strong> {blog.user.username}</p>
         </div>
-        
-        <p><strong>User:</strong> {blog.user.username}</p>
       </div>
     </div>  
   )
