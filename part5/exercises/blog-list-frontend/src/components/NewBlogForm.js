@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 // Component which returns the form used to input a new blog post 
 const NewBlogForm = ({
@@ -45,5 +46,9 @@ const NewBlogForm = ({
     </>
   )
 } 
+
+NewBlogForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
+}
 
 export default NewBlogForm
