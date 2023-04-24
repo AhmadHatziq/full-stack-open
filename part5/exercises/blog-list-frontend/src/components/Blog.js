@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLikes, handleDelete, user }) => {
   // Used to toggle the visibility of the blogStyle class 
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
 
   // Used for the button string label 
-  const [buttonLabel, setButtonLabel] = useState('hide')
+  const [buttonLabel, setButtonLabel] = useState('view')
 
   // CSS styles for toggling hiding. Uses the Boolean state 
   const visibilityStyle = {
