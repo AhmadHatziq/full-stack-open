@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import PropTypes from 'prop-types'
 
 const Blog = ({blog, handleLikes, handleDelete, user}) => {
   // Used to toggle the visibility of the blogStyle class 
@@ -93,6 +93,13 @@ const Blog = ({blog, handleLikes, handleDelete, user}) => {
       </div>
     </div>  
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired, 
+  user: PropTypes.object.isRequired, 
+  handleLikes: PropTypes.func.isRequired, 
+  handleDelete: PropTypes.func.isRequired
 }
 
 export default Blog
