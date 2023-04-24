@@ -159,7 +159,7 @@ const App = () => {
     updatedBlogs[updatedBlogIndex] = updatedBlog
     setBlogs(updatedBlogs)
 
-  }
+  } 
 
   return (
     <div>
@@ -190,10 +190,8 @@ const App = () => {
         </Togglable>
       }
 
-
-
       <h2>Blogs</h2>
-      {blogs.map(blog =>
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
         <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
       )}
     </div>
