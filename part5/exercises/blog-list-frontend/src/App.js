@@ -98,7 +98,7 @@ const App = () => {
     }
   }
 
-  // Handles logic for submitting a form new blog post 
+  // Handles logic for submitting a new blog post via form 
   const handleNewBlog = async (event, blogTitle, setBlogTitle, blogAuthor, setBlogAuthor, blogUrl, setBlogUrl) => {
     event.preventDefault() 
 
@@ -213,7 +213,7 @@ const App = () => {
 
       <h2>Blogs</h2>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog user={user}key={blog.id} blog={blog} handleLikes={handleLikes} handleDelete={handleDelete} />
+        <Blog user={user} key={blog.id} blog={blog} handleLikes={handleLikes} handleDelete={handleDelete} />
       )}
     </div>
   )

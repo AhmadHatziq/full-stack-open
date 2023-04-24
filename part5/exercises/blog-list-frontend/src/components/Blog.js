@@ -76,7 +76,7 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
   return(
     <div style={singlePostStyle}>
       <div style={buttonParentStyle}>
-        <p style={buttonNeighborStyle}><strong>Title:</strong> {blog.title}</p> 
+        <p className='blogTitle' style={buttonNeighborStyle}><strong>Title:</strong> {blog.title}</p> 
         <p className='blogAuthor'><strong>Author:</strong> {blog.author}</p>
         <button style={buttonStyle} onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
