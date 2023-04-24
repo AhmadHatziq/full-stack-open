@@ -80,8 +80,8 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
         <p className='blogAuthor'><strong>Author:</strong> {blog.author}</p>
         <button style={buttonStyle} onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
-      <div style={visibilityStyle}>
-        <div style={blogContent}>
+      <div style={blogContent}>
+        <div style={visibilityStyle}> 
           <p className='blogUrl'><strong>URL:</strong> {blog.url}</p>
           <div style={buttonParentStyle}>
             <p style={buttonNeighborStyle} className='blogLikes'><strong>Likes:</strong> {blog.likes}</p>

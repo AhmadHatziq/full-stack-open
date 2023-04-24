@@ -27,11 +27,16 @@ test('Checks that the blog title & author is displayed by default, but not the U
   expect(titleElement.textContent).toContain('test_blog')
   expect(titleElement).toHaveStyle('display: block')
 
-
-  // Checks if the URL elements are as expected. NTS that URL elements still exist on the page. 
-  // Just that the display is set to None. 
+  // Checks if the URL is defined and not displaying by default  
   const urlElement = container.querySelector('.blogUrl')
   expect(urlElement).toBeDefined() 
   expect(urlElement.textContent).toContain('url.com')
+  expect(screen.getByText('url.com').closest('div')).toHaveStyle('display: none')
+
+  // Checks if the likes is defined and not displaying by default 
+  const likesElement = container.querySelector('.blogLikes')
+  expect(likesElement).toBeDefined() 
+  expect(likesElement.textContent).toContain('15')
+  expect(likesElement.parentElement.parentElement).toHaveStyle('display: none')
 
 })
