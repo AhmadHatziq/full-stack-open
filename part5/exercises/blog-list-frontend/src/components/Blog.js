@@ -77,17 +77,17 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
     <div style={singlePostStyle}>
       <div style={buttonParentStyle}>
         <p style={buttonNeighborStyle}><strong>Title:</strong> {blog.title}</p> 
+        <p className='blogAuthor'><strong>Author:</strong> {blog.author}</p>
         <button style={buttonStyle} onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
       <div style={visibilityStyle}>
         <div style={blogContent}>
-          <p><strong>Author:</strong> {blog.author}</p>
-          <p><strong>URL:</strong> {blog.url}</p>
+          <p className='blogUrl'><strong>URL:</strong> {blog.url}</p>
           <div style={buttonParentStyle}>
-            <p style={buttonNeighborStyle}><strong>Likes:</strong> {blog.likes}</p>
+            <p style={buttonNeighborStyle} className='blogLikes'><strong>Likes:</strong> {blog.likes}</p>
             <button style={buttonStyle} onClick={(event) => handleLikes(event, blog)}>like</button>
           </div>
-          <p><strong>User:</strong> {blog.user.username}</p>
+          <p className='blogUser'><strong>User:</strong> {blog.user.username}</p>
           {deleteButton()}
         </div>
       </div>
@@ -97,7 +97,6 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired, 
-  user: PropTypes.object.isRequired, 
   handleLikes: PropTypes.func.isRequired, 
   handleDelete: PropTypes.func.isRequired
 }
