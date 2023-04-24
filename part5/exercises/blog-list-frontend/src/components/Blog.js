@@ -6,7 +6,7 @@ const Blog = ({blog, handleLikes}) => {
   const [visible, setVisible] = useState(true)
 
   // Used for the button string label 
-  const [buttonLabel, setButtonLabel] = useState("view")
+  const [buttonLabel, setButtonLabel] = useState("hide")
 
   // CSS styles for toggling hiding. Uses the Boolean state 
   const visibilityStyle = {
@@ -16,7 +16,7 @@ const Blog = ({blog, handleLikes}) => {
   // Used to toggle the Boolean visibility variable 
   const toggleVisibility = () => {
     setVisible(!visible)
-    setButtonLabel("hide")
+    setButtonLabel(visible ? "view" : "hide")
   }
 
   // Style for each blog post 
