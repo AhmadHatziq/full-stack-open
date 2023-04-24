@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const Blog = ({blog, handleLikes}) => {
+const Blog = ({blog, handleLikes, handleDelete}) => {
   // Used to toggle the visibility of the blogStyle class 
   const [visible, setVisible] = useState(true)
 
@@ -69,7 +69,7 @@ const Blog = ({blog, handleLikes}) => {
             <button style={buttonStyle} onClick={(event) => handleLikes(event, blog)}>like</button>
           </div>
           <p><strong>User:</strong> {blog.user.username}</p>
-          <button style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px', border: 'none' }}>
+          <button onClick={(event) => handleDelete(event, blog)} style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px', border: 'none' }}>
             Delete
           </button>
         </div>

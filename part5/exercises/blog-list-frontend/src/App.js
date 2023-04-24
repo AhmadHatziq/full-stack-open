@@ -98,7 +98,7 @@ const App = () => {
     }
   }
 
-  // Handles logic for submitting a new blog post 
+  // Handles logic for submitting a form new blog post 
   const handleNewBlog = async (event, blogTitle, setBlogTitle, blogAuthor, setBlogAuthor, blogUrl, setBlogUrl) => {
     event.preventDefault() 
 
@@ -161,6 +161,16 @@ const App = () => {
 
   } 
 
+  // Handles the DELETE button. 
+  // Sends a DELETE request to the specific blog ID endpoint. 
+  const handleDelete = async(event, blog) => {
+    if (window.confirm(`Remove blog titled '${blog.title}' by '${blog.author}'?`)) {
+      alert("Deleting blog")
+    } else {
+      alert("No deleting blog")
+    }
+  }
+
   return (
     <div>
       <Notification message={notificationMessage} notificationColor={notificationColor}/>
@@ -192,7 +202,7 @@ const App = () => {
 
       <h2>Blogs</h2>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLikes={handleLikes} />
+        <Blog key={blog.id} blog={blog} handleLikes={handleLikes} handleDelete={handleDelete} />
       )}
     </div>
   )
