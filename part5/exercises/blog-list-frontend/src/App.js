@@ -165,10 +165,21 @@ const App = () => {
   // Sends a DELETE request to the specific blog ID endpoint. 
   const handleDelete = async(event, blog) => {
     if (window.confirm(`Remove blog titled '${blog.title}' by '${blog.author}'?`)) {
-      alert("Deleting blog")
-    } else {
-      alert("No deleting blog")
-    }
+      try { 
+
+        // Send blog delete request to backend 
+        const blogId = blog.id 
+        console.log(`Blog DELETE sent to ${baseUrl}/${blogId}`)
+        await blogService.deleteBlog(blogId)
+
+        // Update frontend blogs 
+        const updatedBlogs = blogs.filter(blog => blog.id !== blogId)
+        setBlogs(updatedBlogs)
+
+      } catch (error) {
+        console.log("Error in DELETE")
+      }
+    } 
   }
 
   return (
