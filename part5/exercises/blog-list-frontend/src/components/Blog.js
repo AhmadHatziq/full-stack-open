@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const Blog = ({blog, handleLikes, handleDelete}) => {
+const Blog = ({blog, handleLikes, handleDelete, user}) => {
   // Used to toggle the visibility of the blogStyle class 
   const [visible, setVisible] = useState(true)
 
@@ -54,6 +54,25 @@ const Blog = ({blog, handleLikes, handleDelete}) => {
     marginBottom: 5
   }
 
+  // Delete button only displays if the logged-in user is the blog author. Check via username. 
+  const deleteButton = () => {
+
+    // Check if the user is logged in 
+    if (user) {
+
+      // Check if the fields match to determine if the user is the owner 
+      if ((blog.user.name === user.name) && (blog.user.username === user.username)) {
+        return(
+          <>
+            <button onClick={(event) => handleDelete(event, blog)} style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px', border: 'none' }}>
+                  Delete
+            </button>
+          </>)
+    }
+    return(<></>)
+    } 
+  }
+
   return(
     <div style={singlePostStyle}>
       <div style={buttonParentStyle}>
@@ -69,9 +88,7 @@ const Blog = ({blog, handleLikes, handleDelete}) => {
             <button style={buttonStyle} onClick={(event) => handleLikes(event, blog)}>like</button>
           </div>
           <p><strong>User:</strong> {blog.user.username}</p>
-          <button onClick={(event) => handleDelete(event, blog)} style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px', border: 'none' }}>
-            Delete
-          </button>
+          {deleteButton()}
         </div>
       </div>
     </div>  
