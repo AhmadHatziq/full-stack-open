@@ -1,18 +1,39 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
+import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
-
 import Blog from './Blog'
 
-test('Checks that the blog title & author is displayed by default, but not the URL & likes', () => {
-  const newBlog = {
-    'title': 'test_blog', 
-    'author': 'test_author', 
-    'url': 'url.com', 
-    'likes': 15, 
-    'user': { 'username': 'test_user' }
-  }
+const newBlog = {
+  'title': 'test_blog', 
+  'author': 'test_author', 
+  'url': 'url.com', 
+  'likes': 15, 
+  'user': { 'username': 'test_user' }
+}
 
+test('Checks that when the view/hide button is clicked, the URL & likes is shown', async () => {
+  const { container } =  render(<Blog blog={newBlog} user={null} handleLikes={() => {}} handleDelete={() => {}}/>)
+
+  // Simulate a user click on the button. Requires the userEvent import 
+  const user = userEvent.setup() 
+  const visibilityButton = screen.getByText('view')
+  await user.click(visibilityButton)
+
+  // Check if the URL is visible 
+  const urlElement = container.querySelector('.blogUrl')
+  expect(urlElement).toBeDefined() 
+  expect(urlElement.textContent).toContain('url.com')
+  expect(screen.getByText('url.com').closest('div')).toHaveStyle('display: block')
+
+  // Check if the likes is visible 
+  const likesElement = container.querySelector('.blogLikes')
+  expect(likesElement).toBeDefined() 
+  expect(likesElement.textContent).toContain('15')
+  expect(likesElement.parentElement.parentElement).toHaveStyle('display: block')
+})
+
+test('Checks that the blog title & author is displayed by default, but not the URL & likes', () => {
   const { container } =  render(<Blog blog={newBlog} user={null} handleLikes={() => {}} handleDelete={() => {}}/>)
 
   // Checks if the author is displaying by default. 
