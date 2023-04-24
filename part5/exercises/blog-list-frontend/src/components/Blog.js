@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({blog, handleLikes, handleDelete, user}) => {
+const Blog = ({ blog, handleLikes, handleDelete, user }) => {
   // Used to toggle the visibility of the blogStyle class 
   const [visible, setVisible] = useState(true)
 
   // Used for the button string label 
-  const [buttonLabel, setButtonLabel] = useState("hide")
+  const [buttonLabel, setButtonLabel] = useState('hide')
 
   // CSS styles for toggling hiding. Uses the Boolean state 
   const visibilityStyle = {
@@ -16,33 +16,33 @@ const Blog = ({blog, handleLikes, handleDelete, user}) => {
   // Used to toggle the Boolean visibility variable 
   const toggleVisibility = () => {
     setVisible(!visible)
-    setButtonLabel(visible ? "view" : "hide")
+    setButtonLabel(visible ? 'view' : 'hide')
   }
 
   // Style for each blog post 
   const singlePostStyle = {
-    border: "1px solid black",
-      borderRadius: "5px",
-      padding: "10px",
-      margin: "10px", 
+    border: '1px solid black',
+    borderRadius: '5px',
+    padding: '10px',
+    margin: '10px', 
       
   }
 
   // Style for the header and button div 
   const buttonParentStyle = {
     margin: 0,
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   }
 
   // Style for the button 
   const buttonStyle = {
-    marginLeft: "10px",
+    marginLeft: '10px',
   }
 
   // Style for the title 
   const buttonNeighborStyle = {
-    marginRight: "10px",
+    marginRight: '10px',
   }
 
   // Style for the other details 
@@ -68,8 +68,8 @@ const Blog = ({blog, handleLikes, handleDelete, user}) => {
                   Delete
             </button>
           </>)
-    }
-    return(<></>)
+      }
+      return(<></>)
     } 
   }
 

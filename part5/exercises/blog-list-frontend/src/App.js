@@ -43,7 +43,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -52,7 +52,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -104,9 +104,9 @@ const App = () => {
 
     console.log('New blog details: ', blogTitle, blogAuthor, blogUrl)
     const newBlogObject = {
-      "title": blogTitle, 
-      "author": blogAuthor, 
-      "url": blogUrl
+      'title': blogTitle, 
+      'author': blogAuthor, 
+      'url': blogUrl
     }
 
     // Save the new blog details & update front end blogs 
@@ -120,7 +120,7 @@ const App = () => {
 
     // Removes the notification message after some time 
     setTimeout(() => {
-    setNotificationMessage(null)
+      setNotificationMessage(null)
     }, 5000)
     
     // Clear blog input fields
@@ -155,7 +155,7 @@ const App = () => {
     // Get the index, update that index and save the state. 
     const updatedBlogIndex = blogs.findIndex(blog => blog.id === blogId)
     const updatedBlogs = [...blogs]
-    const updatedBlog = {...blogs[updatedBlogIndex], likes: blogs[updatedBlogIndex].likes + 1}
+    const updatedBlog = { ...blogs[updatedBlogIndex], likes: blogs[updatedBlogIndex].likes + 1 }
     updatedBlogs[updatedBlogIndex] = updatedBlog
     setBlogs(updatedBlogs)
 
@@ -177,7 +177,7 @@ const App = () => {
         setBlogs(updatedBlogs)
 
       } catch (error) {
-        console.log("Error in DELETE")
+        console.log('Error in DELETE')
       }
     } 
   }
@@ -192,7 +192,7 @@ const App = () => {
           Welcome! {user.username} logged in 
           <button 
             type="button"
-            onClick={({ event }) => {
+            onClick={() => {
               window.localStorage.removeItem('user')
               setUser(null)
             }}>
@@ -207,7 +207,7 @@ const App = () => {
         <Togglable buttonLabel='Create new blog post' ref={newBlogFormRef}>
           <NewBlogForm
             handleSubmit={handleNewBlog}
-            />
+          />
         </Togglable>
       }
 
