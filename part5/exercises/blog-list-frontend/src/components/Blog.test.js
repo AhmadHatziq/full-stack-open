@@ -12,6 +12,29 @@ const newBlog = {
   'user': { 'username': 'test_user' }
 }
 
+test('If the like button is clicked twice, the event handler the component received as props is called twice', async () => {
+  
+  // Declare a mock function 
+  const mockHandler = jest.fn()
+
+  // Render the component 
+  const { container } =  render(<Blog blog={newBlog} user={null} handleLikes={() => mockHandler()} handleDelete={() => {}}/>)
+
+  // Simulate a click on the 'view' button
+  const user = userEvent.setup() 
+  const visibilityButton = screen.getByText('view')
+  await user.click(visibilityButton)
+
+  // Simulate 2 clicks on the 'like' button 
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  // Check that the mock event handler was clicked twice 
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+})
+
 test('Checks that when the view/hide button is clicked, the URL & likes is shown', async () => {
   const { container } =  render(<Blog blog={newBlog} user={null} handleLikes={() => {}} handleDelete={() => {}}/>)
 
