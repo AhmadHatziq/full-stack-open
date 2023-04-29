@@ -1,5 +1,6 @@
-describe('template spec', () => {
+describe('Blog List App', () => {
   it('passes', () => {
-    cy.visit('https://example.cypress.io')
+    cy.visit('http://localhost:3000')
+    cy.contains('Blogs')
   })
 })
