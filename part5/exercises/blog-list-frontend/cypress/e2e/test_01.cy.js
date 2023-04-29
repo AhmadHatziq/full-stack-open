@@ -45,6 +45,9 @@ describe('Login', () => {
     // There should be an error message with the string 'wrong username or password'
     const expectedErrorMessage = 'wrong username or password'
     cy.contains(expectedErrorMessage)
+
+    // There should be a div with class name 'error' and color red 
+    cy.get('div.error').should('have.css', 'color', 'rgb(255, 0, 0)');
   })
 
   it('Succeeds with correct credentials', () => {
