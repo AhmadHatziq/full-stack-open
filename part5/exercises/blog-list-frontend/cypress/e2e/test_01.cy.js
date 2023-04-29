@@ -48,6 +48,18 @@ describe('Login', () => {
   })
 
   it('Succeeds with correct credentials', () => {
+    cy.visit('http://localhost:3000')
+
+    // Login with correct credentials 
+    const correctUsername = 'testUser'
+    const correctPassword = 'testPassword'
+    cy.get('#username').type(correctUsername)
+    cy.get('#password').type(correctPassword)
+    cy.get('#login-button').click()
+
+    // Upon successful login, there should be the strings "Welcome! testUser logged in"
+    cy.contains("Welcome!")
+    cy.contains("logged in")
     
   })
 
