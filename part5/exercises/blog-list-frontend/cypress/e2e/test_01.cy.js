@@ -26,12 +26,33 @@ describe('Blog List App', () => {
       })
 
     it(`Check if login is successful with the token`, () => {
-      cy.visit('http://localhost:3000')
       cy.contains("Welcome!")
       cy.contains("logged in")
     })
 
-    
+    it('A blog can be created', () => {
+      cy.contains("Create new blog post").click() 
+
+      // Declare details of the new blog 
+      const blogTitle = 'New blog'
+      const blogAuthor ='Alfred'
+      const blogUrl = 'https://test.com'
+
+      // Input new blog details 
+      cy.get('#blogTitle').type(blogTitle)
+      cy.get('#blogAuthor').type(blogAuthor)
+      cy.get('#blogUrl').type(blogUrl)
+      cy.get('#blog-button').click() 
+
+      // Checks if the new blog details are present in the page 
+      cy.contains("view").click() 
+      cy.contains(blogTitle)
+      cy.contains(blogAuthor)
+      cy.contains(blogUrl)
+
+    })
+
+
 
   }) // End of login block 
 })
