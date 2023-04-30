@@ -79,9 +79,32 @@ describe('Blog List App', () => {
 
     })
 
+    it('Blog can be deleted by the owner', () => {
+      
+      // Create a new blog 
+      const newBlog = {
+        blogTitle: 'Blog to delete', 
+        blogAuthor: 'Alfred', 
+        blogUrl: 'test.com'
+      }
+      cy.create_blog_post(newBlog)
 
+      // Delete the blog
+      cy.contains("view").click() 
+      cy.contains("Delete").click().type('{enter}')
 
-  }) // End of login block 
+      // Refresh the page and verify that the blog is no longer there 
+      cy.visit('http://localhost:3000')
+      cy.document().then(doc => {
+        const pageText = doc.documentElement.textContent
+        expect(pageText).to.not.contain(newBlog.blogTitle)
+        expect(pageText).to.not.contain(newBlog.blogAuthor)
+        expect(pageText).to.not.contain(newBlog.blogUrl)
+      })
+      
+    })
+
+  }) // End of 'When logged in' block 
 })
 
 // Tests the login capabilities of the application. 
