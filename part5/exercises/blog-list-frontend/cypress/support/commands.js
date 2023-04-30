@@ -45,3 +45,13 @@ Cypress.Commands.add('create_and_login', ({ username, password }) => {
     })
 
 })
+
+// Creates a new blog post with the specified blog arguments 
+Cypress.Commands.add('create_blog_post', ({ blogTitle, blogAuthor, blogUrl }) => {
+  cy.visit('http://localhost:3000') 
+  cy.contains("Create new blog post").click() 
+  cy.get('.blogTitle').type(blogTitle)
+  cy.get('.blogAuthor').type(blogAuthor)
+  cy.get('.blogUrl').type(blogUrl)
+  cy.get('.blog-button').click() 
+})

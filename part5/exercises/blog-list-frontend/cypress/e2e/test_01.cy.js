@@ -23,7 +23,7 @@ describe('Blog List App', () => {
     // Creates and logs in with the user.  
     beforeEach(function() {
       cy.create_and_login({"username": "testUser2", "password": "testPassword"})
-      })
+    })
 
     it(`Check if login is successful with the token`, () => {
       cy.contains("Welcome!")
@@ -39,16 +39,30 @@ describe('Blog List App', () => {
       const blogUrl = 'https://test.com'
 
       // Input new blog details 
-      cy.get('#blogTitle').type(blogTitle)
-      cy.get('#blogAuthor').type(blogAuthor)
-      cy.get('#blogUrl').type(blogUrl)
-      cy.get('#blog-button').click() 
+      cy.get('.blogTitle').type(blogTitle)
+      cy.get('.blogAuthor').type(blogAuthor)
+      cy.get('.blogUrl').type(blogUrl)
+      cy.get('.blog-button').click() 
 
       // Checks if the new blog details are present in the page 
       cy.contains("view").click() 
       cy.contains(blogTitle)
       cy.contains(blogAuthor)
       cy.contains(blogUrl)
+
+    })
+
+    it('Blog can be liked', () => {
+
+      // Create a new blog 
+      const newBlog = {
+        blogTitle: 'Blog title', 
+        blogAuthor: 'Alfred', 
+        blogUrl: 'test.com'
+      }
+      cy.create_blog_post(newBlog)
+
+      // Verify that the current like is at 0 
 
     })
 
