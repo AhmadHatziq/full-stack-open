@@ -20,7 +20,7 @@ describe('Blog List App', () => {
 
   describe('When logged in', () => {
 
-    // Creates and logs in with the user.  
+    // Creates and logs in with the user: testUser2.  
     beforeEach(function() {
       cy.create_and_login({"username": "testUser2", "password": "testPassword"})
     })
@@ -81,7 +81,7 @@ describe('Blog List App', () => {
 
     it('Blog can be deleted by the owner', () => {
       
-      // Create a new blog 
+      // Create a new blog as testUser2
       const newBlog = {
         blogTitle: 'Blog to delete', 
         blogAuthor: 'Alfred', 
@@ -102,6 +102,37 @@ describe('Blog List App', () => {
         expect(pageText).to.not.contain(newBlog.blogUrl)
       })
       
+    })
+
+    it('Only the creator can delete the blog', () => {
+
+      // Create blog under 'testUser2'
+      const newBlog = {
+        blogTitle: 'Blog to delete', 
+        blogAuthor: 'testUser2', 
+        blogUrl: 'test.com'
+      }
+      cy.create_blog_post(newBlog)
+
+      // Create and login as another user 
+      cy.contains("logout").click() 
+      const notOwner = {
+        'name': 'notOwner', 
+        'username': 'notOwner', 
+        'password': 'testPassword'
+      }
+      cy.create_new_user(notOwner)
+      
+      // Check that the blog details are present 
+      cy.contains("view").click() 
+      cy.contains(newBlog.blogTitle)
+      cy.contains(newBlog.blogAuthor)
+      cy.contains(newBlog.blogUrl)
+      cy.get('button').filter(':contains("like")').should('exist')
+
+      // Check that there is no button with the 'delete' string 
+      cy.get('button').filter(':contains("delete")').should('not.exist')
+
     })
 
   }) // End of 'When logged in' block 
