@@ -22,15 +22,17 @@ describe('Blog List App', () => {
 
     // Creates and logs in with the user.  
     beforeEach(function() {
-
       cy.create_and_login({"username": "testUser2", "password": "testPassword"})
-      
       })
 
-    it(`Check if token exists`, () => {
+    it(`Check if login is successful with the token`, () => {
       cy.visit('http://localhost:3000')
-      
+      cy.contains("Welcome!")
+      cy.contains("logged in")
     })
+
+    
+
   }) // End of login block 
 })
 
