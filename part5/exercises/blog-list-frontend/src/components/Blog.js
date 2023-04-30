@@ -74,7 +74,7 @@ const Blog = ({ blog, handleLikes, handleDelete, user }) => {
   }
 
   return(
-    <div style={singlePostStyle}>
+    <div style={singlePostStyle} className='blog'>
       <div style={buttonParentStyle}>
         <p className='blogTitle' style={buttonNeighborStyle}><strong>Title:</strong> {blog.title}</p> 
         <p className='blogAuthor'><strong>Author:</strong> {blog.author}</p>

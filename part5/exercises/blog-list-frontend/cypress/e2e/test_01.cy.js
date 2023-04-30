@@ -135,6 +135,44 @@ describe('Blog List App', () => {
 
     })
 
+    it('Blogs are ordered according to likes', () => {
+
+      // Create 3 new blogs
+      const blog1 = {
+        blogTitle: 'Blog 1', 
+        blogAuthor: 'testUser2', 
+        blogUrl: 'test.com'
+      }
+      const blog2 = {
+        blogTitle: 'Blog 2', 
+        blogAuthor: 'testUser2', 
+        blogUrl: 'test.com'
+      }
+      const blog3 = {
+        blogTitle: 'Blog 3', 
+        blogAuthor: 'testUser2', 
+        blogUrl: 'test.com'
+      }
+      cy.create_blog_post(blog1)
+      cy.create_blog_post(blog2)
+      cy.create_blog_post(blog3)
+
+      // Like the second blog once. 
+      cy.contains('Title: Blog 2').parent('div').find('button:contains("view")').click() 
+      cy.contains('Title: Blog 2').parent('div').parent('div').find('button:contains("like")').click() 
+
+      // Like the 3rd blog twice. 
+      cy.contains('Title: Blog 3').parent('div').find('button:contains("view")').click() 
+      cy.contains('Title: Blog 3').parent('div').parent('div').find('button:contains("like")').click() 
+      cy.contains('Title: Blog 3').parent('div').parent('div').find('button:contains("like")').click() 
+
+      // Verify that the ordering is Blog 3 => Blog 2 => Blog 1 
+      cy.get('.blog').eq(0).should('contain', 'Title: Blog 3')
+      cy.get('.blog').eq(1).should('contain', 'Title: Blog 2') 
+      cy.get('.blog').eq(2).should('contain', 'Title: Blog 1') 
+
+    })
+
   }) // End of 'When logged in' block 
 })
 
