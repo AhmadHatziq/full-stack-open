@@ -1,3 +1,5 @@
+
+
 describe('Blog List App', () => {
 
   beforeEach(function() {
@@ -15,8 +17,24 @@ describe('Blog List App', () => {
     cy.contains('username')
     cy.contains('password') 
   })
+
+  describe('When logged in', () => {
+
+    // Creates and logs in with the user.  
+    beforeEach(function() {
+
+      cy.create_and_login({"username": "testUser2", "password": "testPassword"})
+      
+      })
+
+    it(`Check if token exists`, () => {
+      cy.visit('http://localhost:3000')
+      
+    })
+  }) // End of login block 
 })
 
+// Tests the login capabilities of the application. 
 describe('Login', () => {
 
   // Reset the TEST DB and create a new user 

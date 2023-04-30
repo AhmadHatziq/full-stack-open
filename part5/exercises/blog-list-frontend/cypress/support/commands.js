@@ -23,3 +23,25 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('create_and_login', ({ username, password }) => {
+
+  // Resets the DB
+  cy.request('POST', 'http://localhost:3003/api/testing/reset')
+
+  // Creates the test user 
+  const testUser = {
+    'name': username, 
+    'username': username, 
+    'password': password
+  }
+  cy.request('POST', 'http://localhost:3003/api/users', testUser)
+
+  // Logs in with the test user 
+  cy.request('POST', 'http://localhost:3003/api/login', testUser)
+    .then(response => {
+      localStorage.setItem('user', JSON.stringify(response.body))
+      cy.visit('http://localhost:3000')
+    })
+
+})
