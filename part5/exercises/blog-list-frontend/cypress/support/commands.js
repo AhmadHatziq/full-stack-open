@@ -50,8 +50,8 @@ Cypress.Commands.add('create_and_login', ({ username, password }) => {
 Cypress.Commands.add('create_blog_post', ({ blogTitle, blogAuthor, blogUrl }) => {
   cy.visit('http://localhost:3000') 
   cy.contains("Create new blog post").click() 
-  cy.get('.blogTitle').type(blogTitle)
-  cy.get('.blogAuthor').type(blogAuthor)
-  cy.get('.blogUrl').type(blogUrl)
-  cy.get('.blog-button').click() 
+  cy.get('.inputBlogTitle').type(blogTitle)
+  cy.get('.inputBlogAuthor').type(blogAuthor)
+  cy.get('.inputBlogUrl').type(blogUrl)
+  cy.get('.submit-blog-button').click() 
 })

@@ -39,10 +39,10 @@ describe('Blog List App', () => {
       const blogUrl = 'https://test.com'
 
       // Input new blog details 
-      cy.get('.blogTitle').type(blogTitle)
-      cy.get('.blogAuthor').type(blogAuthor)
-      cy.get('.blogUrl').type(blogUrl)
-      cy.get('.blog-button').click() 
+      cy.get('.inputBlogTitle').type(blogTitle)
+      cy.get('.inputBlogAuthor').type(blogAuthor)
+      cy.get('.inputBlogUrl').type(blogUrl)
+      cy.get('.submit-blog-button').click() 
 
       // Checks if the new blog details are present in the page 
       cy.contains("view").click() 
