@@ -63,6 +63,19 @@ describe('Blog List App', () => {
       cy.create_blog_post(newBlog)
 
       // Verify that the current like is at 0 
+      cy.contains("view").click() 
+      cy.contains("Likes: 0")
+
+      // Click the 'like' button 
+      cy.contains("like").click() 
+
+      // Check that the likes have incremented by 1 (like updates the frontend)
+      cy.contains("Likes: 1")
+
+      // Refresh the page and check that the likes is still 1 (like updates the backend)
+      cy.visit('http://localhost:3000')
+      cy.contains("view").click() 
+      cy.contains("Likes: 1")
 
     })
 
