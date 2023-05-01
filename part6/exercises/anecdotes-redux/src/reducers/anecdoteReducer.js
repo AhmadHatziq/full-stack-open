@@ -25,30 +25,9 @@ const initialState = {
   'filter': filterValue
 }
 
-// Sets action type to UPVOTE, with the ID. 
-// Logic for incrementing will be done in the reducer. 
-export const upVote = (id) => {
-  return {
-    type: 'UPVOTE', 
-    payload: {
-      id: id
-    }
-  }
-}
-
-// Creating a new annecdote 
-export const createNewAnnecdote = (newAnnecdote) => {
-  return {
-    type: 'NEW_ANNECDOTE', 
-    payload: {
-      content: newAnnecdote
-    }
-  }
-}
-
 // reducer is imported at index.js 
 // Handles the logic for the various actions, which will affect the store / state. 
-const reducer = (state = initialState, action) => {
+const anecdoteReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
@@ -98,4 +77,25 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export default reducer
+// Sets action type to UPVOTE, with the ID. 
+// Logic for incrementing will be done in the reducer. 
+export const upVote = (id) => {
+  return {
+    type: 'UPVOTE', 
+    payload: {
+      id: id
+    }
+  }
+}
+
+// Creating a new annecdote 
+export const createNewAnnecdote = (newAnnecdote) => {
+  return {
+    type: 'NEW_ANNECDOTE', 
+    payload: {
+      content: newAnnecdote
+    }
+  }
+}
+
+export default anecdoteReducer
