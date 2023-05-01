@@ -4,7 +4,10 @@ import { upVote } from '../reducers/anecdoteReducer'
 const AnecdoteList = () => {
 
   // useSelector will retrieve the state from the store
-  const anecdotes = useSelector(state => state.anecdotes.anecdotes)
+  const anecdotes = useSelector(state => {
+    console.log("state in AnecdoteList" , state)
+    return state.anecdotes
+  })
 
   // useDispatch is used to issue out actions to change the store state. 
   // It will pass the 'action' to the 'reducer' function defined in the store. 

@@ -1,4 +1,7 @@
-const filterReducer = (state = 'ALL', action) => {
+
+const initialFilter = ''
+
+const filterReducer = (state = initialFilter, action) => {
   switch (action.type) {
     case 'SET_FILTER':
       return action.payload
