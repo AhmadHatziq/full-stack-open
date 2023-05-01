@@ -4,13 +4,21 @@ import ReactDOM from 'react-dom/client'
 import { createStore } from 'redux'
 import reducer from './reducer'
 
+// The reducer is only given as a parameter to the createStore function. 
+// Store contains the current state. 
 const store = createStore(reducer)
 
 const App = () => {
   const good = () => {
+
+    // Dispatcher is used to do the reducer actions. 
     store.dispatch({
       type: 'GOOD'
     })
+
+    console.log(`Good function. State: `)
+    console.log(store.getState())
+
   }
 
   return (
