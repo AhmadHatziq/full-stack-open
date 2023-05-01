@@ -62,7 +62,7 @@ const reducer = (state = initialState, action) => {
       const upvotedAnnecdote = {...annecdote, votes: parseInt(annecdote.votes) + 1}
       
       // Store the updatedAnnecdote in the state without mutating it 
-      return state.map(element => element.id === id ? upvotedAnnecdote : element)
+      return state.map(element => element.id === id ? upvotedAnnecdote : element).sort((a, b) => b.votes - a.votes)
 
     // Store the new annecdote to the state / store 
     case 'NEW_ANNECDOTE': 
@@ -75,7 +75,7 @@ const reducer = (state = initialState, action) => {
       }
 
       // Return the state, with the newly created annecdote appended. 
-      return state.concat(newAnnecdote)
+      return state.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
 
     default: 
       return state 
