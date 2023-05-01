@@ -5,8 +5,8 @@ const Filter = () => {
     // input-field value is in variable event.target.value
     const filterValue = event.target.value
   
-    
-    
+    console.log(filterValue)
+
   }
   const style = {
     marginBottom: 10
