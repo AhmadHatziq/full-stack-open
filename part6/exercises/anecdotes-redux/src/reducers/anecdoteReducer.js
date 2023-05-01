@@ -7,6 +7,8 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const filterValue = ""
+
 const getId = () => (100000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => {
@@ -18,7 +20,10 @@ const asObject = (anecdote) => {
 }
 
 // Used to initialize the anecdotes to store the content, id and vote fields 
-const initialState = anecdotesAtStart.map(asObject)
+const initialState = {
+  'anecdotes': anecdotesAtStart.map(asObject), 
+  'filter': filterValue
+}
 
 // Sets action type to UPVOTE, with the ID. 
 // Logic for incrementing will be done in the reducer. 
@@ -47,6 +52,8 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
+  let annecdotes = null 
+
   switch (action.type) {
 
     // Increment the vote by 1, for the specified annecdote ID 
@@ -55,17 +62,25 @@ const reducer = (state = initialState, action) => {
       // Get the desired annecdote
       const id = action.payload.id 
 
+      // Extract annecdote list from the state
+      annecdotes = state.anecdotes
+
       // Note that array.filter() returns another array. We only want the single element, at index 0 
-      const annecdote = state.filter(state => state.id === id)[0]
+      const annecdote = annecdotes.filter(state => state.id === id)[0]
       
       // Increment the annecdote.vote by 1 
       const upvotedAnnecdote = {...annecdote, votes: parseInt(annecdote.votes) + 1}
       
       // Store the updatedAnnecdote in the state without mutating it 
-      return state.map(element => element.id === id ? upvotedAnnecdote : element).sort((a, b) => b.votes - a.votes)
+      const newAnnecdoteList =  state.anecdotes.map(element => element.id === id ? upvotedAnnecdote : element).sort((a, b) => b.votes - a.votes)
+      const newState = {...state, 'anecdotes': newAnnecdoteList}
+      return newState
 
     // Store the new annecdote to the state / store 
     case 'NEW_ANNECDOTE': 
+
+      // Extract annecdote list from the state
+      annecdotes = state.anecdotes
 
       // Create the new annecdote object 
       const newAnnecdote = {
@@ -75,7 +90,8 @@ const reducer = (state = initialState, action) => {
       }
 
       // Return the state, with the newly created annecdote appended. 
-      return state.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
+      const newStateWithNewAnnecdote = annecdotes.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
+      return {...state, 'anecdotes': newStateWithNewAnnecdote}
 
     default: 
       return state 
