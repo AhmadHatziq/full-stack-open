@@ -15,21 +15,35 @@ const App = () => {
     store.dispatch({
       type: 'GOOD'
     })
+  }
 
-    console.log(`Good function. State: `)
-    console.log(store.getState())
+  const bad = () => {
+    store.dispatch({
+      type: 'BAD'
+    })
+  }
 
+  const okay = () => {
+    store.dispatch({
+      type: 'OK'
+    })
+  }
+
+  const reset = () => {
+    store.dispatch({
+      type: 'ZERO'
+    })
   }
 
   return (
     <div>
       <button onClick={good}>good</button> 
-      <button>ok</button> 
-      <button>bad</button>
-      <button>reset stats</button>
+      <button onClick={okay}>ok</button> 
+      <button onClick={bad}>bad</button>
+      <button onClick={reset}>reset stats</button>
       <div>good {store.getState().good}</div>
-      <div>ok</div>
-      <div>bad</div>
+      <div>ok {store.getState().ok}</div>
+      <div>bad {store.getState().bad}</div>
     </div>
   )
 }
