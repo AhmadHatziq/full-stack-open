@@ -5,7 +5,6 @@ const AnecdoteList = () => {
 
   // useSelector will retrieve the state from the store
   const anecdotes = useSelector(state => {
-    console.log("state in AnecdoteList" , state)
     return state.anecdotes
   })
 
