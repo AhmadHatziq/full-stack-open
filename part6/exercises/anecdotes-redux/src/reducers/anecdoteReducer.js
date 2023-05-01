@@ -17,13 +17,46 @@ const asObject = (anecdote) => {
   }
 }
 
+// Used to initialize the anecdotes to store the content, id and vote fields 
 const initialState = anecdotesAtStart.map(asObject)
 
+// Sets action type to UPVOTE, with the ID. 
+// Logic for incrementing will be done in the reducer. 
+export const upVote = (id) => {
+  return {
+    type: 'UPVOTE', 
+    payload: {
+      id: id
+    }
+  }
+}
+
+// reducer is imported at index.js 
+// Handles the logic for the various actions, which will affect the store / state. 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-  return state
+  switch (action.type) {
+
+    // Increment the vote by 1, for the specified annecdote ID 
+    case 'UPVOTE': 
+      
+      // Get the desired annecdote
+      const id = action.payload.id 
+
+      // Note that array.filter() returns another array. We only want the single element, at index 0 
+      const annecdote = state.filter(state => state.id === id)[0]
+      
+      // Increment the annecdote.vote by 1 
+      const upvotedAnnecdote = {...annecdote, votes: parseInt(annecdote.votes) + 1}
+      
+      // Store the updatedAnnecdote in the state without mutating it 
+      return state.map(element => element.id === id ? upvotedAnnecdote : element)
+      
+    default: 
+      return state 
+  }
 }
 
 export default reducer
