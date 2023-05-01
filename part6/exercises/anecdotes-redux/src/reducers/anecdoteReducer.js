@@ -31,6 +31,16 @@ export const upVote = (id) => {
   }
 }
 
+// Creating a new annecdote 
+export const createNewAnnecdote = (newAnnecdote) => {
+  return {
+    type: 'NEW_ANNECDOTE', 
+    payload: {
+      content: newAnnecdote
+    }
+  }
+}
+
 // reducer is imported at index.js 
 // Handles the logic for the various actions, which will affect the store / state. 
 const reducer = (state = initialState, action) => {
@@ -53,7 +63,20 @@ const reducer = (state = initialState, action) => {
       
       // Store the updatedAnnecdote in the state without mutating it 
       return state.map(element => element.id === id ? upvotedAnnecdote : element)
-      
+
+    // Store the new annecdote to the state / store 
+    case 'NEW_ANNECDOTE': 
+
+      // Create the new annecdote object 
+      const newAnnecdote = {
+        content: action.payload.content, 
+        id: getId(), 
+        votes: 0
+      }
+
+      // Return the state, with the newly created annecdote appended. 
+      return state.concat(newAnnecdote)
+
     default: 
       return state 
   }
