@@ -4,11 +4,13 @@ import { configureStore } from '@reduxjs/toolkit'
 // However, there can be any number of NAMED exports
 import anecdoteReducer from './reducers/anecdoteReducer'
 import filterReducer from './reducers/filterReducer'
+import notificationReducer from './reducers/notificationReducer'
 
 const store = configureStore({
   reducer: {
     anecdotes: anecdoteReducer, 
-    filter: filterReducer 
+    filter: filterReducer, 
+    notification: notificationReducer
   }
 })
 
