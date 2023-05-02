@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,6 +22,68 @@ const asObject = (anecdote) => {
 // Used to initialize the anecdotes to store the content, id and vote fields 
 const initialState = anecdotesAtStart.map(asObject)
 
+// Use createSlice to define the reducer name, initialState, reducer actions 
+const anecdoteSlice = createSlice({
+  // All actions will be called as dispatch({ type: 'anecdotes/anecdoteAction', payload: 'Some payload' })
+  name: 'anecdotes',
+  initialState: initialState, 
+  reducers: {
+
+    // Upvotes a single anecdote based on id (action.payload.id)
+    upvoteAnecdote(state, action) {
+
+      // To print the state, need to use:  JSON.parse(JSON.stringify(state)
+      // console.log('upvoteAnecdote state: ', JSON.parse(JSON.stringify(state)))
+      // console.log('upvoteAnecdote action: ', action)
+
+      // Note that we are not restricted to using 'action.payload'. 
+      // Anything else defined can also be accessed. 
+      // Eg action.test == 'test123' 
+
+      // Get the desired annecdote via action.payload. 
+      // Is this by convention? 
+      const id = action.payload
+
+      // Extract annecdote list from the state
+      let annecdotes = state
+
+      // Note that array.filter() returns another array. We only want the single element, at index 0 
+      const annecdote = annecdotes.filter(state => state.id === id)[0]
+      
+      // Increment the annecdote.vote by 1 
+      const upvotedAnnecdote = {...annecdote, votes: parseInt(annecdote.votes) + 1}
+      
+      // Store the updatedAnnecdote in the state without mutating it 
+      const newAnnecdoteList =  annecdotes.map(element => element.id === id ? upvotedAnnecdote : element).sort((a, b) => b.votes - a.votes)
+      return newAnnecdoteList
+    }, 
+
+    // Store a new anecdote 
+    createAnecdote(state, action) {
+
+      // console.log('createAnecdote', JSON.parse(JSON.stringify(state)))
+
+      // Extract annecdote list from the state
+      let annecdotes = state
+
+      // Create the new annecdote object 
+      const newAnnecdote = {
+        content: action.payload, 
+        id: getId(), 
+        votes: 0
+      }
+
+      // Return the state, with the newly created annecdote appended. 
+      const newStateWithNewAnnecdote = annecdotes.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
+      return newStateWithNewAnnecdote
+    }
+  }
+})
+
+export const { createAnecdote, upvoteAnecdote } = anecdoteSlice.actions 
+export default anecdoteSlice.reducer 
+
+/*
 // reducer is imported at index.js 
 // Handles the logic for the various actions, which will affect the store / state. 
 const anecdoteReducer = (state = initialState, action) => {
@@ -93,3 +157,4 @@ export const createNewAnnecdote = (newAnnecdote) => {
 }
 
 export default anecdoteReducer
+*/ 

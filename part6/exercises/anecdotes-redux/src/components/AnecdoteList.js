@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { upVote } from '../reducers/anecdoteReducer'
+import { upvoteAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
 
@@ -24,7 +24,9 @@ const AnecdoteList = () => {
   // Dispatches upVote, with a specified ID. 
   // Dispatch needs an object with the 'action' property. 
   const vote = (id) => {
-    dispatch(upVote(id))
+    // dispatch(upVote(id))
+    // dispatch(upvoteAnecdote({"id": id}))
+    dispatch({ type: 'anecdotes/upvoteAnecdote', payload: id, test: 'test123' })
   }
 
   return (<>

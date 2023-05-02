@@ -1,7 +1,26 @@
+import { createSlice } from '@reduxjs/toolkit'
 
-const initialFilter = ''
+const initialFilterState = ''
 
-const filterReducer = (state = initialFilter, action) => {
+const filterSlice = createSlice({
+  name: "filter", 
+  initialState: initialFilterState, 
+  reducers: {
+
+    // Set the filter state value 
+    setFilter(state, action) {
+      return action.payload.filterValue 
+    }
+
+  }
+})
+
+
+export const { setFilter } = filterSlice.actions 
+export default filterSlice.reducer 
+
+/*
+const filterReducer = (state = initialFilterState, action) => {
 
   switch (action.type) {
     case 'SET_FILTER':
@@ -21,3 +40,4 @@ export const setFilter = (filterValue) => {
 }
 
 export default filterReducer
+*/ 
