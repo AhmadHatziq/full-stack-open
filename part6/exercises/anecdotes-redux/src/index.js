@@ -1,23 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App'
-
- // export default anecdoteSlice.reducer. Can be any var name as there is only 1 default export (UNNAMED) 
- // However, there can be any number of NAMED exports
-import anecdoteReducer from './reducers/anecdoteReducer'
-import filterReducer from './reducers/filterReducer'
-
-const store = configureStore({
-  reducer: {
-    anecdotes: anecdoteReducer, 
-    filter: filterReducer 
-  }
-})
+import customStore from './store'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
+  <Provider store={customStore}>
     <App />
   </Provider>
 )

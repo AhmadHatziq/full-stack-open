@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { upvoteAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
 
