@@ -22,10 +22,19 @@ const AnecdoteList = () => {
 
   // Dispatches upVote, with a specified ID. 
   // Dispatch needs an object with the 'action' property. 
-  const vote = (id) => {
-    // dispatch(upVote(id))
+  const vote = (id, content) => {
+
+    // Issue an action to upvote the anecdote 
     // dispatch(upvoteAnecdote({"id": id}))
     dispatch({ type: 'anecdotes/upvoteAnecdote', payload: id, test: 'test123' })
+
+    // Issue an action to display the notification 
+    dispatch({type: 'notification/setNotification', payload: `You voted for ${content}`})
+
+    // Wait for 5 seconds and display ''
+    setTimeout(() => {
+      dispatch({type: 'notification/setNotification', payload: ''})
+    }, 5000)
   }
 
   return (<>
@@ -36,7 +45,7 @@ const AnecdoteList = () => {
         </div>
         <div>
           has {anecdote.votes}
-          <button onClick={() => vote(anecdote.id)}>vote</button>
+          <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
         </div>
       </div>
     )}

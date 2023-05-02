@@ -1,15 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialNotification = 'PLACEHOLDER NOTIFICATION'
+const initialNotification = {notification: ''}
 
 const notificationSlice = createSlice({
   name: 'notification', 
   initialState: initialNotification, 
   reducers: {
 
+    // Returns the new state for the notification string. 
     setNotification(state, action) {
-      return action.payload 
-    }
+
+      // console.log('setNotification state: ', JSON.parse(JSON.stringify(state)))
+      // console.log('setNotification action: ', action)
+
+      // Set the state to the payload string 
+      state.notification = action.payload
+
+    }, 
 
   }
 })

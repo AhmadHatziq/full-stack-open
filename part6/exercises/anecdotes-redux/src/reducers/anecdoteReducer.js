@@ -33,7 +33,7 @@ const anecdoteSlice = createSlice({
     upvoteAnecdote(state, action) {
 
       // To print the state, need to use:  JSON.parse(JSON.stringify(state)
-      // console.log('upvoteAnecdote state: ', JSON.parse(JSON.stringify(state)))
+      console.log('upvoteAnecdote state: ', JSON.parse(JSON.stringify(state)))
       // console.log('upvoteAnecdote action: ', action)
 
       // Note that we are not restricted to using 'action.payload'. 
