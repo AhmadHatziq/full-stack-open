@@ -29,9 +29,9 @@ const AnecdoteList = () => {
     dispatch({ type: 'anecdotes/upvoteAnecdote', payload: id, test: 'test123' })
 
     // Issue an action to display the notification 
-    dispatch({type: 'notification/setNotification', payload: `You voted for ${content}`})
+    dispatch({type: 'notification/setNotification', payload: `You voted for "${content}"`})
 
-    // Wait for 5 seconds and display ''
+    // Wait for 5 seconds and display no notification 
     setTimeout(() => {
       dispatch({type: 'notification/setNotification', payload: ''})
     }, 5000)

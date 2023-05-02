@@ -7,14 +7,24 @@ const AnecdoteForm = () => {
   const addAnnecdotes = (event) => {
     event.preventDefault() 
     
-    // Extract the new annecdote and dispatch it. 
+    // Extract the new annecdote 
     const newAnnecdote = event.target.newAnnecdote.value 
+
+    // Clear the form field 
+    event.target.newAnnecdote.value = ''
     
-    // dispatch(createNewAnnecdote(newAnnecdote))
+    // Create the annecdote 
     // dispatch(createAnecdote({newAnnecdote}))
     dispatch({ type: 'anecdotes/createAnecdote', 'payload': newAnnecdote })
 
-    event.target.newAnnecdote.value = ''
+    // Set the notification 
+    dispatch({ type: 'notification/setNotification', 'payload': `New anecdote created: "${newAnnecdote}"`})
+
+    // Wait for 5 seconds and display no notification 
+    setTimeout(() => {
+      dispatch({type: 'notification/setNotification', payload: ''})
+    }, 5000)
+    
   }
 
   return(<>
