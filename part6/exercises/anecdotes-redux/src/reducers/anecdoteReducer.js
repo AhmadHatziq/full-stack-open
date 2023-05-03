@@ -26,8 +26,18 @@ const initialState = anecdotesAtStart.map(asObject)
 const anecdoteSlice = createSlice({
   // All actions will be called as dispatch({ type: 'anecdotes/anecdoteAction', payload: 'Some payload' })
   name: 'anecdotes',
-  initialState: initialState, 
+  initialState: [], 
   reducers: {
+
+    // Append an anecdote to the state 
+    appendAnecdote(state, action) {
+      state.push(action.payload)
+    }, 
+
+    // Sets the state with the payload 
+    setAnecdotes(state, action) {
+      return action.payload 
+    }, 
 
     // Upvotes a single anecdote based on id (action.payload.id)
     upvoteAnecdote(state, action) {
@@ -80,5 +90,5 @@ const anecdoteSlice = createSlice({
   }
 })
 
-export const { createAnecdote, upvoteAnecdote } = anecdoteSlice.actions 
+export const { createAnecdote, upvoteAnecdote, setAnecdotes, appendAnecdote } = anecdoteSlice.actions 
 export default anecdoteSlice.reducer 
