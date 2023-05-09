@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import anecdoteService from '../services/anecdotes'
 
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -82,6 +83,10 @@ const anecdoteSlice = createSlice({
         id: getId(), 
         votes: 0
       }
+
+      // Store the new anecdote in the backend 
+      anecdoteService.saveAnecdote(newAnnecdote)
+      
 
       // Return the state, with the newly created annecdote appended. 
       const newStateWithNewAnnecdote = annecdotes.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
