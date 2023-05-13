@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { addAnecdote } from '../reducers/anecdoteReducer'
+import { notifyAndRemove } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -19,13 +20,8 @@ const AnecdoteForm = () => {
     // dispatch({ type: 'anecdotes/createAnecdote', 'payload': newAnnecdote })
     dispatch(addAnecdote({newAnnecdoteString}))
 
-    // Set the notification 
-    dispatch({ type: 'notification/setNotification', 'payload': `New anecdote created: "${newAnnecdoteString}"`})
-
-    // Wait for 5 seconds and display no notification 
-    setTimeout(() => {
-      dispatch({type: 'notification/setNotification', payload: ''})
-    }, 5000)
+    // Set the notification for 5 seconds 
+    dispatch(notifyAndRemove({notificationString: `New anecdote created: "${newAnnecdoteString}"`, durationInSeconds: 5}))
     
   }
 
