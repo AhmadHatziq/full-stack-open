@@ -15,9 +15,11 @@ const store = configureStore({
   }
 })
 
+/*
 // Initializze the anecdotes with the backend data 
 anecdoteService.getAll().then(anecdotes => 
   store.dispatch({ type: 'anecdotes/setAnecdotes', 'payload': anecdotes})
-  )
+)
+*/ 
 
 export default store
