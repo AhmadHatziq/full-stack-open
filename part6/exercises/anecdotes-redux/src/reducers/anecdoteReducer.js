@@ -69,7 +69,7 @@ const anecdoteSlice = createSlice({
       return newAnnecdoteList
     }, 
 
-    // Store a new anecdote 
+    // Store a new anecdote in the state 
     createAnecdote(state, action) {
 
       // console.log('createAnecdote', JSON.parse(JSON.stringify(state)))
@@ -78,14 +78,7 @@ const anecdoteSlice = createSlice({
       let annecdotes = state
 
       // Create the new annecdote object 
-      const newAnnecdote = {
-        content: action.payload, 
-        id: getId(), 
-        votes: 0
-      }
-
-      // Store the new anecdote in the backend 
-      anecdoteService.saveAnecdote(newAnnecdote)
+      const newAnnecdote = action.payload
       
       // Return the state, with the newly created annecdote appended. 
       const newStateWithNewAnnecdote = annecdotes.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
@@ -101,6 +94,28 @@ export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+// Refactor for exercise 6.17. 
+// New anecdote will be sent to the backend here. 
+// Will do a dispatch to another action to store the new anecdote to the frontend state. 
+export const addAnecdote = ({newAnnecdoteString}) => {
+  return async dispatch => {
+
+    // Create the new annecdote object 
+    const newAnnecdote = {
+      content: newAnnecdoteString, 
+      id: getId(), 
+      votes: 0
+    }
+
+    // Store the new anecdote in the backend 
+    anecdoteService.saveAnecdote(newAnnecdote)
+
+    // Dispatch action to store the new anecdote to the frontend state 
+    dispatch({ type: 'anecdotes/createAnecdote', 'payload': newAnnecdote })
+
   }
 }
 

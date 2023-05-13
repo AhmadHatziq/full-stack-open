@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux'
+import { addAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -8,17 +9,18 @@ const AnecdoteForm = () => {
     event.preventDefault() 
     
     // Extract the new annecdote 
-    const newAnnecdote = event.target.newAnnecdote.value 
+    const newAnnecdoteString = event.target.newAnnecdote.value 
 
     // Clear the form field 
     event.target.newAnnecdote.value = ''
     
     // Create the annecdote 
     // dispatch(createAnecdote({newAnnecdote}))
-    dispatch({ type: 'anecdotes/createAnecdote', 'payload': newAnnecdote })
+    // dispatch({ type: 'anecdotes/createAnecdote', 'payload': newAnnecdote })
+    dispatch(addAnecdote({newAnnecdoteString}))
 
     // Set the notification 
-    dispatch({ type: 'notification/setNotification', 'payload': `New anecdote created: "${newAnnecdote}"`})
+    dispatch({ type: 'notification/setNotification', 'payload': `New anecdote created: "${newAnnecdoteString}"`})
 
     // Wait for 5 seconds and display no notification 
     setTimeout(() => {
