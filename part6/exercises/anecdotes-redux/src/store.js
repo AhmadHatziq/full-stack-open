@@ -5,7 +5,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import anecdoteReducer from './reducers/anecdoteReducer'
 import filterReducer from './reducers/filterReducer'
 import notificationReducer from './reducers/notificationReducer'
-import anecdoteService from './services/anecdotes'
 
 const store = configureStore({
   reducer: {
@@ -14,12 +13,5 @@ const store = configureStore({
     notification: notificationReducer
   }
 })
-
-/*
-// Initializze the anecdotes with the backend data 
-anecdoteService.getAll().then(anecdotes => 
-  store.dispatch({ type: 'anecdotes/setAnecdotes', 'payload': anecdotes})
-)
-*/ 
 
 export default store
