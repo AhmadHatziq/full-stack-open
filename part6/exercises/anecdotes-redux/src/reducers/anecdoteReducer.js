@@ -87,7 +87,6 @@ const anecdoteSlice = createSlice({
       // Store the new anecdote in the backend 
       anecdoteService.saveAnecdote(newAnnecdote)
       
-
       // Return the state, with the newly created annecdote appended. 
       const newStateWithNewAnnecdote = annecdotes.concat(newAnnecdote).sort((a, b) => b.votes - a.votes)
       return newStateWithNewAnnecdote
@@ -95,5 +94,16 @@ const anecdoteSlice = createSlice({
   }
 })
 
+// To initialize the anecdotes, the communication with the server/service has been refactored to here via Redux thunk. 
+// This allows for the component to only call the action, not execute communication logic. 
+// This function needs to return an async function. 
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+// Export statements 
 export const { createAnecdote, upvoteAnecdote, setAnecdotes, appendAnecdote } = anecdoteSlice.actions 
 export default anecdoteSlice.reducer 
