@@ -14,4 +14,23 @@ const saveAnecdote = async (newAnecdote) => {
   return response.data 
 }
 
-export default { getAll, saveAnecdote }
+// POST request to upvote a new anecdote to the backend. 
+const upvoteAnecdote = async (anecdoteId) => {
+  const anecdoteUrl = `${baseUrl}/${anecdoteId}`
+
+  // Get the current vote count from the backend 
+  const currentAnecdote = (await axios.get(anecdoteUrl)).data
+  const currentVotes = parseInt(currentAnecdote.votes)
+  console.log(currentVotes)
+
+  // Create a new anecdote, with the incremented votes 
+  const newAnecdote = {...currentAnecdote, 'votes': currentVotes + 1}
+  
+  // PUT the newAnecdote 
+  const response = await axios.put(anecdoteUrl, newAnecdote)
+  return response.data
+
+}
+
+
+export default { getAll, saveAnecdote, upvoteAnecdote }

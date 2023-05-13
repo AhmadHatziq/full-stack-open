@@ -41,7 +41,7 @@ const anecdoteSlice = createSlice({
     }, 
 
     // Upvotes a single anecdote based on id (action.payload.id)
-    upvoteAnecdote(state, action) {
+    upvoteAnecdoteFrontend(state, action) {
 
       // To print the state, need to use:  JSON.parse(JSON.stringify(state)
       console.log('upvoteAnecdote state: ', JSON.parse(JSON.stringify(state)))
@@ -54,6 +54,9 @@ const anecdoteSlice = createSlice({
       // Get the desired annecdote via action.payload. 
       // Is this by convention? 
       const id = action.payload
+
+      // Do a call to the backend to update 
+      anecdoteService.upvoteAnecdote(id)
 
       // Extract annecdote list from the state
       let annecdotes = state
@@ -86,6 +89,10 @@ const anecdoteSlice = createSlice({
     }
   }
 })
+
+// Upvote the anecdote via the backend before dispatching a call to the frontend. 
+// Returns a function, via the React thunk library. 
+
 
 // To initialize the anecdotes, the communication with the server/service has been refactored to here via Redux thunk. 
 // This allows for the component to only call the action, not execute communication logic. 

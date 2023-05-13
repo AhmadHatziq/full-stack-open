@@ -26,7 +26,7 @@ const AnecdoteList = () => {
 
     // Issue an action to upvote the anecdote 
     // dispatch(upvoteAnecdote({"id": id}))
-    dispatch({ type: 'anecdotes/upvoteAnecdote', payload: id, test: 'test123' })
+    dispatch({ type: 'anecdotes/upvoteAnecdoteFrontend', payload: id, test: 'test123' })
 
     // Issue an action to display the notification 
     dispatch({type: 'notification/setNotification', payload: `You voted for "${content}"`})
