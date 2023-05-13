@@ -55,9 +55,6 @@ const anecdoteSlice = createSlice({
       // Is this by convention? 
       const id = action.payload
 
-      // Do a call to the backend to update 
-      anecdoteService.upvoteAnecdote(id)
-
       // Extract annecdote list from the state
       let annecdotes = state
 
@@ -92,7 +89,17 @@ const anecdoteSlice = createSlice({
 
 // Upvote the anecdote via the backend before dispatching a call to the frontend. 
 // Returns a function, via the React thunk library. 
+export const upvoteAnecdote = ({anecdoteId}) => {
+  return async dispatch => {
 
+    // Do a call to the backend to update 
+    anecdoteService.upvoteAnecdote(anecdoteId)
+
+     // Dispatch action to update the new upvoted anecdote to the frontend state 
+     dispatch({ type: 'anecdotes/upvoteAnecdoteFrontend', 'payload': anecdoteId })
+
+  }
+}
 
 // To initialize the anecdotes, the communication with the server/service has been refactored to here via Redux thunk. 
 // This allows for the component to only call the action, not execute communication logic. 
@@ -127,5 +134,5 @@ export const addAnecdote = ({newAnnecdoteString}) => {
 }
 
 // Export statements 
-export const { createAnecdote, upvoteAnecdote, setAnecdotes, appendAnecdote } = anecdoteSlice.actions 
+export const { createAnecdote, upvoteAnecdoteFrontend, setAnecdotes, appendAnecdote } = anecdoteSlice.actions 
 export default anecdoteSlice.reducer 

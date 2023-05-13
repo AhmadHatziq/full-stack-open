@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { upvoteAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
 
@@ -26,7 +27,8 @@ const AnecdoteList = () => {
 
     // Issue an action to upvote the anecdote 
     // dispatch(upvoteAnecdote({"id": id}))
-    dispatch({ type: 'anecdotes/upvoteAnecdoteFrontend', payload: id, test: 'test123' })
+    dispatch(upvoteAnecdote({anecdoteId: id}))
+    // dispatch({ type: 'anecdotes/upvoteAnecdoteFrontend', payload: id, test: 'test123' })
 
     // Issue an action to display the notification 
     dispatch({type: 'notification/setNotification', payload: `You voted for "${content}"`})
