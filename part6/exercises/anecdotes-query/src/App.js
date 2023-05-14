@@ -9,8 +9,6 @@ const App = () => {
 
   const notificationReducer = (state, action) => {
 
-    console.log('notification Reducer ', state, action)
-
     switch(action.type) {
   
       // Display the payload text 
@@ -39,8 +37,17 @@ const App = () => {
 
   // Handles the logic when the user clicks the 'upvote' button 
   const handleVote = (anecdote) => {
-    console.log('vote for ', anecdote)
+    console.log('Upvote for ', anecdote)
     updateAnecdoteMutation.mutate({...anecdote, votes: anecdote.votes + 1 })
+
+    // Set the notification message to inform the user of a successful upvote 
+    notificationStringDispatch({type: "DISPLAY", payload: `You upvoted for: ${anecdote.content}`})
+
+    // Remove the notification message after 5 seconds 
+    setTimeout(() => {
+      notificationStringDispatch({type: "CLEAR"})
+    }, 5 * 1000)
+
   }
 
   // Obtain and set the anecdotes using React Query. 
