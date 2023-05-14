@@ -25,6 +25,18 @@ const AnecdoteForm = () => {
       }, 5 * 1000)
       
     },
+
+    // Assume all failed POST requests are due to the anecdote being of insufficent length 
+    onError: (error) => {
+
+      // Display the error message 
+      notificationStringDispatch({type: "DISPLAY", payload: `${error.response.statusText}. Anecdote is too short. Length must be ≥ 5`})
+
+      // Remove the error notification after 5 seconds 
+      setTimeout(() => {
+        notificationStringDispatch({type: "CLEAR"})
+      }, 5 * 1000)
+    }
   })
 
   const onCreate = (event) => {
