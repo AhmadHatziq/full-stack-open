@@ -1,17 +1,29 @@
 import { useMutation, useQueryClient } from 'react-query' 
 import { createAnecdote } from '../requests'
 
+import { useContext } from 'react'
+import { NotificationContext } from '../NotificationContext'
+
 const AnecdoteForm = () => {
 
   const queryClient = useQueryClient()
+  const [notificationString, notificationStringDispatch] = useContext(NotificationContext)
 
   // Handles the mutation when a new anecdote is added by the user. 
   const newAnecdoteMutation = useMutation(createAnecdote, {
-    onSuccess: () => {
+    onSuccess: (newAnecdote) => {
 
       // Invalidates the cache, which causes a re-render
       queryClient.invalidateQueries('anecdotes')
-    
+
+      // Set the notification message to inform the user of a successful anecdote creation 
+      notificationStringDispatch({type: "DISPLAY", payload: `Created a new anecdote: ${newAnecdote.content}`})
+
+      // Remove the notification message after 5 seconds 
+      setTimeout(() => {
+        notificationStringDispatch({type: "CLEAR"})
+      }, 5 * 1000)
+      
     },
   })
 
@@ -19,7 +31,7 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    newAnecdoteMutation.mutate({ 'content': content })
+    newAnecdoteMutation.mutate({ 'content': content, 'votes': 0 })
     console.log('New anecdote created')
 }
 
