@@ -4,13 +4,12 @@ import Notification from './components/Notification'
 import { useQuery } from 'react-query' 
 import { getAnecdotes } from './requests'
 
-
 const App = () => {
+
 
   const handleVote = (anecdote) => {
     console.log('vote')
   }
-
 
   // Obtain and set the anecdotes using React Query. 
   // Note that in index.js, the App component must be wrapped in '<QueryClientProvider client={queryClient}>'
