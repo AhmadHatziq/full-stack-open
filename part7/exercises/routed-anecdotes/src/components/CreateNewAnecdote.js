@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 const CreateNewAnecdote = ({
   anecdotes, 
   setAnecdotes, 
+  setNotification
 }) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
@@ -30,6 +31,9 @@ const CreateNewAnecdote = ({
     setContent('')
     setAuthor('')
     setInfo('')
+
+    // Set the notification state 
+    setNotification(`A new anecdote was created: <i> ${newAnecdote.content} </i> by <b> ${newAnecdote.author} </b>`)
 
     // Redirect the user to see the list of anecdotes 
     navigate('/anecdotes')

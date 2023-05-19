@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Route, Routes, useMatch } from 'react-router-dom'
 import { Menu } from './components/Menu'
 import { AnecdoteList } from './components/AnecdoteList'
@@ -30,6 +30,13 @@ const App = () => {
   // Notification message state 
   const [notification, setNotification] = useState('')
 
+  // useEffect for notification. When the notification state changes, will remove it after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
+  }, [notification])
+
   // Used to find the anecdotes by ID. 
   const anecdoteById = (id) => { 
     return anecdotes.find(a => a.id === id)
@@ -51,17 +58,18 @@ const App = () => {
   // Obtain the anecdote ID & anecdote using match 
   const anecdoteIdMatch = useMatch('/anecdotes/:id')
   const matchingAnecdote = anecdoteIdMatch
-  ? anecdotes.find(anecdote => anecdote.id === Number(anecdoteIdMatch.params.id))
-  : null
+    ? anecdotes.find(anecdote => anecdote.id === Number(anecdoteIdMatch.params.id))
+    : null
 
   return (
     <div>
       <h1>Software anecdotes</h1>
+      <div dangerouslySetInnerHTML={{ __html: notification }} />
       <Menu/>
 
       <Routes>
         <Route path="/" element={<Menu/>} />
-        <Route path="/create" element={<CreateNewAnecdote anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>} />
+        <Route path="/create" element={<CreateNewAnecdote anecdotes={anecdotes} setAnecdotes={setAnecdotes} setNotification={setNotification}/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes}/>}/>
         <Route path="/anecdotes/:id" element={<Anecdote anecdote={matchingAnecdote} />} />
