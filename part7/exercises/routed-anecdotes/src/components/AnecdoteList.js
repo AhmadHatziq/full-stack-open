@@ -10,11 +10,11 @@ const AnecdoteList = ({ anecdotes }) => {
         {
           let anecdoteUrl = `http://localhost:3000/anecdotes/${anecdote.id}`
           return (
-          <>
-            <Link to={anecdoteUrl} >
-              <li key={anecdote.id}>{anecdote.content}</li>
+          <li key={anecdote.id}>
+            <Link to={anecdoteUrl}>
+              {anecdote.content}	
             </Link>
-          </>
+          </li>
           )
         })
         }
