@@ -1,20 +1,38 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // CreateNew anecdote component 
-const CreateNewAnecdote = (props) => {
+const CreateNewAnecdote = ({
+  anecdotes, 
+  setAnecdotes, 
+}) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.addNew({
+
+    // Create the new anecdote 
+    const newAnecdote = {
       content,
       author,
       info,
       votes: 0
-    })
+    }
+
+    // Store the new anecdote to the state 
+    newAnecdote.id = Math.round(Math.random() * 10000)
+    setAnecdotes(anecdotes.concat(newAnecdote))
+
+    // Clear the fields 
+    setContent('')
+    setAuthor('')
+    setInfo('')
+
+    // Redirect the user to see the list of anecdotes 
+    navigate('/anecdotes')
   }
 
   return (

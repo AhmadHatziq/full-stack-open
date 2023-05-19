@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Route, Routes, useMatch } from 'react-router-dom'
+import { Route, Routes, useMatch } from 'react-router-dom'
 import { Menu } from './components/Menu'
 import { AnecdoteList } from './components/AnecdoteList'
 import { About } from './components/About'
@@ -30,13 +30,6 @@ const App = () => {
   // Notification message state 
   const [notification, setNotification] = useState('')
 
-  // Function used to add a new anecdote. 
-  // Generates a random ID and concats the new anecdote to the state 
-  const addNew = (anecdote) => {
-    anecdote.id = Math.round(Math.random() * 10000)
-    setAnecdotes(anecdotes.concat(anecdote))
-  }
-
   // Used to find the anecdotes by ID. 
   const anecdoteById = (id) => { 
     return anecdotes.find(a => a.id === id)
@@ -65,10 +58,10 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu/>
-      
+
       <Routes>
         <Route path="/" element={<Menu/>} />
-        <Route path="/create" element={<CreateNewAnecdote/>} />
+        <Route path="/create" element={<CreateNewAnecdote anecdotes={anecdotes} setAnecdotes={setAnecdotes}/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/anecdotes" element={<AnecdoteList anecdotes={anecdotes}/>}/>
         <Route path="/anecdotes/:id" element={<Anecdote anecdote={matchingAnecdote} />} />

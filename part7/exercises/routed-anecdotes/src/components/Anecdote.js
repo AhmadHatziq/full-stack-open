@@ -1,5 +1,6 @@
 // Anecdote component, representing a single component 
 const Anecdote = ( {anecdote} ) => {
+
   return(
     <>
       <h1> {anecdote.content} by {anecdote.author} </h1>

@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom'
 // AnecdoteList component 
-const AnecdoteList = ({ anecdotes }) => (
+const AnecdoteList = ({ anecdotes }) => {         
+                     
+  return( 
   <div>
     <h2>Anecdotes</h2>
     <ul>
@@ -8,15 +11,15 @@ const AnecdoteList = ({ anecdotes }) => (
           let anecdoteUrl = `http://localhost:3000/anecdotes/${anecdote.id}`
           return (
           <>
-            <a href={anecdoteUrl}>
-              <li key={anecdote.id} >{anecdote.content}</li>
-            </a>
+            <Link to={anecdoteUrl} >
+              <li key={anecdote.id}>{anecdote.content}</li>
+            </Link>
           </>
           )
         })
         }
     </ul>
   </div>
-)
+)}
 
 export { AnecdoteList }
