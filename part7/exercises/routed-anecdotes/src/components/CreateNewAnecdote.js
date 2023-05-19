@@ -1,5 +1,6 @@
-import { useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+import { useField } from '../hooks/'
 
 // CreateNew anecdote component 
 const CreateNewAnecdote = ({
@@ -7,9 +8,10 @@ const CreateNewAnecdote = ({
   setAnecdotes, 
   setNotification
 }) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -17,9 +19,9 @@ const CreateNewAnecdote = ({
 
     // Create the new anecdote 
     const newAnecdote = {
-      content,
-      author,
-      info,
+      'content': content.value,
+      'author': author.value,
+      'info': info.value,
       votes: 0
     }
 
@@ -28,9 +30,9 @@ const CreateNewAnecdote = ({
     setAnecdotes(anecdotes.concat(newAnecdote))
 
     // Clear the fields 
-    setContent('')
-    setAuthor('')
-    setInfo('')
+    content.setValue('')
+    author.setValue('')
+    info.setValue('')
 
     // Set the notification state 
     setNotification(`A new anecdote was created: <i> ${newAnecdote.content} </i> by <b> ${newAnecdote.author} </b>`)
@@ -45,15 +47,15 @@ const CreateNewAnecdote = ({
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' value={content.value} onChange={content.onChange} type={content.type} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' value={author.value} onChange={author.onChange} type={author.type} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' value={info.value} onChange={info.onChange} type={info.type} />
         </div>
         <button>create</button>
       </form>
