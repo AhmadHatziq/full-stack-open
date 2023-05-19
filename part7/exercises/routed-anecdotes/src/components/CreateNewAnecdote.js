@@ -41,6 +41,13 @@ const CreateNewAnecdote = ({
     navigate('/anecdotes')
   }
 
+  // Calls the reset function for all fields, which empties them. 
+  const resetHandler = () => {
+    content.clearField() 
+    author.clearField() 
+    info.clearField() 
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -59,6 +66,7 @@ const CreateNewAnecdote = ({
         </div>
         <button>create</button>
       </form>
+      <button onClick={() => resetHandler()}>reset</button>
     </div>
   )
 }

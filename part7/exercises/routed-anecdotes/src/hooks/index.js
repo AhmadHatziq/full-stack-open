@@ -11,11 +11,16 @@ const useField = (type) => {
     setValue(event.target.value)
   }
 
+  const clearField = () => {
+    setValue('')
+  }
+
   return {
     type,
     value,
     setValue,
-    onChange
+    onChange, 
+    clearField
   }
 }
 
