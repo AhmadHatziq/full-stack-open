@@ -18,10 +18,19 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  // Do a GET request at the start to retrieve all the resources 
+  useEffect(() => {
+    axios
+    .get(baseUrl)
+    .then(response => {
+      setResources(response.data)
+    })
+  }, [])
 
+  // POST the new resources to the baseUrl 
   const create = (resource) => {
-    // ...
+    console.log("Creating: ", JSON.stringify(resource))
+    return axios.post(baseUrl, resource)
   }
 
   const service = {
@@ -38,12 +47,16 @@ const App = () => {
   const name = useField('text')
   const number = useField('text')
 
+  // Each useResource hook returns 2 objects: 
+  //    1. All of the individual resources
+  //    2. An object that can be used for creating new resources 
   const [notes, noteService] = useResource('http://localhost:3005/notes')
   const [persons, personService] = useResource('http://localhost:3005/persons')
 
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
+
   }
  
   const handlePersonSubmit = (event) => {
