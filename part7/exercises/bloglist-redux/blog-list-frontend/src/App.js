@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import Blog from "./components/Blog";
 import Togglable from "./components/Togglable";
 import NewBlogForm from "./components/NewBlogForm";
@@ -14,9 +15,14 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notificationMessage, setNotificationMessage] = useState(null);
-  const [notificationColor, setNotificationColor] = useState("green");
-
+  // const [notificationMessage, setNotificationMessage] = useState(null);
+  // const [notificationColor, setNotificationColor] = useState("green");
+  const notificationMessage = useSelector(
+    (state) => state.notification.notificationMessage
+  );
+  const notificationColor = useSelector(
+    (state) => state.notification.notificationColor
+  );
   const newBlogFormRef = useRef();
 
   // Loads blogs via GET
