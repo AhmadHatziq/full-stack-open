@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Blog from "./components/Blog";
 import Togglable from "./components/Togglable";
 import NewBlogForm from "./components/NewBlogForm";
@@ -15,8 +15,8 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  // const [notificationMessage, setNotificationMessage] = useState(null);
-  // const [notificationColor, setNotificationColor] = useState("green");
+
+  const dispatch = useDispatch();
   const notificationMessage = useSelector(
     (state) => state.notification.notificationMessage
   );
@@ -93,13 +93,19 @@ const App = () => {
       setPassword("");
     } catch (exception) {
       // Display an error message upon failed login attempt
-      setNotificationMessage("wrong username or password");
-      setNotificationColor("red");
+      dispatch({
+        type: "notification/setNotificationMessage",
+        payload: "wrong username or password",
+      });
+      dispatch({ type: "notification/setNotificationColor", payload: "red" });
       console.log("Failed login for ", username);
 
       // Removes the notification message after some time
       setTimeout(() => {
-        setNotificationMessage(null);
+        dispatch({
+          type: "notification/setNotificationMessage",
+          payload: null,
+        });
       }, 5000);
     }
   };
@@ -128,15 +134,23 @@ const App = () => {
     setBlogs(blogs.concat(newBlog));
 
     // Notify the user of the successful blog post creation
-    setNotificationColor("green");
-    setNotificationMessage(
-      `A new blog titled '${blogTitle}' by ${blogAuthor} is added`
-    );
+    dispatch({
+      type: "notification/setNotificationMessage",
+      payload: `A new blog titled '${blogTitle}' by ${blogAuthor} is added`,
+    });
+    dispatch({
+      type: "notification/setNotificationColor",
+      payload: "green",
+    });
+    console.log("Failed login for ", username);
     console.log("Saved new blog");
 
     // Removes the notification message after some time
     setTimeout(() => {
-      setNotificationMessage(null);
+      dispatch({
+        type: "notification/setNotificationMessage",
+        payload: null,
+      });
     }, 5000);
 
     // Clear blog input fields
