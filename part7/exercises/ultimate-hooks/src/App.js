@@ -1,68 +1,63 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const useField = (type) => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("");
 
   const onChange = (event) => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
 
   return {
     type,
     value,
-    onChange
-  }
-}
+    onChange,
+  };
+};
 
 const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
+  const [resources, setResources] = useState([]);
 
-  // Do a GET request at the start to retrieve all the resources 
+  // Do a GET request at the start to retrieve all the resources
   useEffect(() => {
-    axios
-    .get(baseUrl)
-    .then(response => {
-      setResources(response.data)
-    })
-  }, [])
+    axios.get(baseUrl).then((response) => {
+      setResources(response.data);
+    });
+  }, []);
 
-  // POST the new resources to the baseUrl 
+  // POST the new resources to the baseUrl
   const create = (resource) => {
-    console.log("Creating: ", JSON.stringify(resource))
-    return axios.post(baseUrl, resource)
-  }
+    console.log("Creating: ", JSON.stringify(resource));
+    return axios.post(baseUrl, resource);
+  };
 
   const service = {
-    create
-  }
+    create,
+  };
 
-  return [
-    resources, service
-  ]
-}
+  return [resources, service];
+};
 
 const App = () => {
-  const content = useField('text')
-  const name = useField('text')
-  const number = useField('text')
+  const content = useField("text");
+  const name = useField("text");
+  const number = useField("text");
 
-  // Each useResource hook returns 2 objects: 
+  // Each useResource hook returns 2 objects:
   //    1. All of the individual resources
-  //    2. An object that can be used for creating new resources 
-  const [notes, noteService] = useResource('http://localhost:3005/notes')
-  const [persons, personService] = useResource('http://localhost:3005/persons')
+  //    2. An object that can be used for creating new resources
+  const [notes, noteService] = useResource("http://localhost:3005/notes");
+  const [persons, personService] = useResource("http://localhost:3005/persons");
 
   const handleNoteSubmit = (event) => {
-    event.preventDefault()
-    noteService.create({ content: content.value })
+    event.preventDefault();
+    noteService.create({ content: content.value });
+  };
 
-  }
- 
   const handlePersonSubmit = (event) => {
-    event.preventDefault()
-    personService.create({ name: name.value, number: number.value})
-  }
+    event.preventDefault();
+    personService.create({ name: name.value, number: number.value });
+  };
 
   return (
     <div>
@@ -71,17 +66,23 @@ const App = () => {
         <input {...content} />
         <button>create</button>
       </form>
-      {notes.map(n => <p key={n.id}>{n.content}</p>)}
+      {notes.map((n) => (
+        <p key={n.id}>{n.content}</p>
+      ))}
 
       <h2>persons</h2>
       <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br/>
+        name <input {...name} /> <br />
         number <input {...number} />
         <button>create</button>
       </form>
-      {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}
+      {persons.map((n) => (
+        <p key={n.id}>
+          {n.name} {n.number}
+        </p>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
