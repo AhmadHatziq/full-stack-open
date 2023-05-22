@@ -7,7 +7,10 @@ import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import axios from "axios";
-
+import notificationReducer, {
+  setNotificationMessage,
+  setNotificationColor,
+} from "./reducers/notificationReducer";
 const baseUrl = "http://localhost:3003/api/blogs";
 
 const App = () => {
@@ -93,19 +96,13 @@ const App = () => {
       setPassword("");
     } catch (exception) {
       // Display an error message upon failed login attempt
-      dispatch({
-        type: "notification/setNotificationMessage",
-        payload: "wrong username or password",
-      });
-      dispatch({ type: "notification/setNotificationColor", payload: "red" });
+      dispatch(setNotificationMessage("wrong username or password"));
+      dispatch(setNotificationColor, "red");
       console.log("Failed login for ", username);
 
       // Removes the notification message after some time
       setTimeout(() => {
-        dispatch({
-          type: "notification/setNotificationMessage",
-          payload: null,
-        });
+        dispatch(setNotificationMessage(null));
       }, 5000);
     }
   };
@@ -134,23 +131,18 @@ const App = () => {
     setBlogs(blogs.concat(newBlog));
 
     // Notify the user of the successful blog post creation
-    dispatch({
-      type: "notification/setNotificationMessage",
-      payload: `A new blog titled '${blogTitle}' by ${blogAuthor} is added`,
-    });
-    dispatch({
-      type: "notification/setNotificationColor",
-      payload: "green",
-    });
+    dispatch(
+      setNotificationMessage(
+        `A new blog titled '${blogTitle}' by ${blogAuthor} is added`
+      )
+    );
+    dispatch(setNotificationColor, "green");
     console.log("Failed login for ", username);
     console.log("Saved new blog");
 
     // Removes the notification message after some time
     setTimeout(() => {
-      dispatch({
-        type: "notification/setNotificationMessage",
-        payload: null,
-      });
+      dispatch(setNotificationMessage(null));
     }, 5000);
 
     // Clear blog input fields
