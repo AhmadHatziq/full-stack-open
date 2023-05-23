@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import Users from "./components/Users";
 import Blog from "./components/Blog";
 import Togglable from "./components/Togglable";
 import NewBlogForm from "./components/NewBlogForm";
@@ -210,8 +212,8 @@ const App = () => {
     }
   };
 
-  // Displays the blogs
-  const displayBlogs = () => {
+  // Render the blogs in the blogs state
+  const renderBlogs = () => {
     const blogsCopy = [...blogs];
     return blogsCopy
       .sort((a, b) => b.likes - a.likes)
@@ -228,43 +230,78 @@ const App = () => {
       });
   };
 
+  // Display the blogs or string, if no blogs are present
+  const displayBlogs = () => {
+    return (
+      <>
+        <h2>Blogs</h2>
+        {blogs && blogs.length > 0 ? (
+          <div>{renderBlogs()}</div>
+        ) : (
+          <p>No blogs found</p>
+        )}
+      </>
+    );
+  };
+
+  // Display the blog form
+  const displayBlogForm = () => {
+    return (
+      <>
+        {user === null ? null : (
+          <Togglable buttonLabel="Create new blog post" ref={newBlogFormRef}>
+            <NewBlogForm handleSubmit={handleNewBlog} />
+          </Togglable>
+        )}
+      </>
+    );
+  };
+
+  // Display the login form and current user logged in
+  const displayUserState = () => {
+    return (
+      <>
+        {user === null ? (
+          loginForm()
+        ) : (
+          <div>
+            Welcome! {user.username} logged in
+            <button
+              type="button"
+              onClick={() => {
+                window.localStorage.removeItem("user");
+                dispatch(setUser(null));
+              }}
+            >
+              logout
+            </button>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  // Display the main page: User login, notification, blogs
+  const displayMainPage = () => {
+    return (
+      <>
+        <Notification
+          message={notificationMessage}
+          notificationColor={notificationColor}
+        />
+        {displayUserState()}
+        {displayBlogForm()}
+        {displayBlogs()}
+      </>
+    );
+  };
+
   return (
     <div>
-      <Notification
-        message={notificationMessage}
-        notificationColor={notificationColor}
-      />
-
-      {user === null ? (
-        loginForm()
-      ) : (
-        <div>
-          Welcome! {user.username} logged in
-          <button
-            type="button"
-            onClick={() => {
-              window.localStorage.removeItem("user");
-              dispatch(setUser(null));
-            }}
-          >
-            logout
-          </button>
-        </div>
-      )}
-
-      {user === null ? null : (
-        <Togglable buttonLabel="Create new blog post" ref={newBlogFormRef}>
-          <NewBlogForm handleSubmit={handleNewBlog} />
-        </Togglable>
-      )}
-
-      <h2>Blogs</h2>
-
-      {blogs && blogs.length > 0 ? (
-        <div>{displayBlogs()}</div>
-      ) : (
-        <p>No blogs found</p>
-      )}
+      <Routes>
+        <Route path="/users" element={<Users />}></Route>
+        <Route path="/" element={displayMainPage()}></Route>
+      </Routes>
     </div>
   );
 };
