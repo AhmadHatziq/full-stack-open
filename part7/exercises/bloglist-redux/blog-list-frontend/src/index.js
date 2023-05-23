@@ -3,9 +3,12 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Provider } from "react-redux";
 import customStore from "./store";
+import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={customStore}>
-    <App />
-  </Provider>
+  <Router>
+    <Provider store={customStore}>
+      <App />
+    </Provider>
+  </Router>
 );
