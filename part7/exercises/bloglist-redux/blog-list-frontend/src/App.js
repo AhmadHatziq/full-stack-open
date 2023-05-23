@@ -16,6 +16,7 @@ import {
   likeBlog,
   deleteBlog,
 } from "./reducers/blogReducer";
+import { setUser } from "./reducers/userReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -25,7 +26,9 @@ const App = () => {
   // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+
+  // const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user);
 
   const blogs = useSelector((state) => {
     return state.blogs;
@@ -50,7 +53,7 @@ const App = () => {
     // Will only proceed if the item exists
     if (userJSON) {
       const user = JSON.parse(userJSON);
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
     }
   }, []);
@@ -97,7 +100,7 @@ const App = () => {
       console.log("Successful login ", user);
 
       // Save credentials
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
       window.localStorage.setItem("user", JSON.stringify(user));
 
@@ -241,7 +244,7 @@ const App = () => {
             type="button"
             onClick={() => {
               window.localStorage.removeItem("user");
-              setUser(null);
+              dispatch(setUser(null));
             }}
           >
             logout
