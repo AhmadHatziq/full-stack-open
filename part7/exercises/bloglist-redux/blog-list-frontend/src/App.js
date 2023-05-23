@@ -296,10 +296,25 @@ const App = () => {
     );
   };
 
+  // Display the "/users" route
+  const displayUsers = () => {
+    return (
+      <>
+        <Notification
+          message={notificationMessage}
+          notificationColor={notificationColor}
+        />
+        {displayUserState()}
+        <h2>Users</h2>
+        <Users blogs={blogs} />
+      </>
+    );
+  };
+
   return (
     <div>
       <Routes>
-        <Route path="/users" element={<Users />}></Route>
+        <Route path="/users" element={displayUsers()}></Route>
         <Route path="/" element={displayMainPage()}></Route>
       </Routes>
     </div>
