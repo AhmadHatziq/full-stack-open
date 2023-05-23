@@ -7,19 +7,23 @@ import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import axios from "axios";
-import notificationReducer, {
+import {
   setNotificationMessage,
   setNotificationColor,
 } from "./reducers/notificationReducer";
+import { loadBlogData } from "./reducers/blogReducer";
+
 const baseUrl = "http://localhost:3003/api/blogs";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  const dispatch = useDispatch();
+
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
-  const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blog.blogs);
   const notificationMessage = useSelector(
     (state) => state.notification.notificationMessage
   );
@@ -30,7 +34,8 @@ const App = () => {
 
   // Loads blogs via GET
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    // blogService.getAll().then((blogs) => setBlogs(blogs));
+    // dispatch(loadBlogData());
   }, []);
 
   // Checks if the user is saved in localStorage at the beginning.
@@ -236,17 +241,21 @@ const App = () => {
       )}
 
       <h2>Blogs</h2>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <Blog
-            user={user}
-            key={blog.id}
-            blog={blog}
-            handleLikes={handleLikes}
-            handleDelete={handleDelete}
-          />
-        ))}
+      {blogs && blogs.length > 0 ? (
+        blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <Blog
+              user={user}
+              key={blog.id}
+              blog={blog}
+              handleLikes={handleLikes}
+              handleDelete={handleDelete}
+            />
+          ))
+      ) : (
+        <p>No blogs found</p>
+      )}
     </div>
   );
 };
