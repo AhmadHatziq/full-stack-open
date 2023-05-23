@@ -11,7 +11,7 @@ import {
   setNotificationMessage,
   setNotificationColor,
 } from "./reducers/notificationReducer";
-import { loadBlogData } from "./reducers/blogReducer";
+import { initializeBlogs } from "./reducers/blogReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -23,10 +23,13 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
-  const blogs = useSelector((state) => state.blog.blogs);
-  const notificationMessage = useSelector(
-    (state) => state.notification.notificationMessage
-  );
+  const blogs = useSelector((state) => {
+    return state.blogs;
+  });
+
+  const notificationMessage = useSelector((state) => {
+    return state.notification.notificationMessage;
+  });
   const notificationColor = useSelector(
     (state) => state.notification.notificationColor
   );
@@ -34,9 +37,8 @@ const App = () => {
 
   // Loads blogs via GET
   useEffect(() => {
-    // blogService.getAll().then((blogs) => setBlogs(blogs));
-    // dispatch(loadBlogData());
-  }, []);
+    dispatch(initializeBlogs());
+  }, [dispatch]);
 
   // Checks if the user is saved in localStorage at the beginning.
   useEffect(() => {
@@ -210,6 +212,24 @@ const App = () => {
     }
   };
 
+  // Displays the blogs
+  const displayBlogs = () => {
+    const blogsCopy = [...blogs];
+    return blogsCopy
+      .sort((a, b) => b.likes - a.likes)
+      .map((blog) => {
+        return (
+          <Blog
+            user={user}
+            key={blog.id}
+            blog={blog}
+            handleLikes={handleLikes}
+            handleDelete={handleDelete}
+          />
+        );
+      });
+  };
+
   return (
     <div>
       <Notification
@@ -241,18 +261,9 @@ const App = () => {
       )}
 
       <h2>Blogs</h2>
+
       {blogs && blogs.length > 0 ? (
-        blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map((blog) => (
-            <Blog
-              user={user}
-              key={blog.id}
-              blog={blog}
-              handleLikes={handleLikes}
-              handleDelete={handleDelete}
-            />
-          ))
+        <div>{displayBlogs()}</div>
       ) : (
         <p>No blogs found</p>
       )}
