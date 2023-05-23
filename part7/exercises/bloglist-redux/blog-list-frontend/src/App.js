@@ -6,12 +6,16 @@ import NewBlogForm from "./components/NewBlogForm";
 import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import axios from "axios";
 import {
   setNotificationMessage,
   setNotificationColor,
 } from "./reducers/notificationReducer";
-import { initializeBlogs, createBlog, likeBlog } from "./reducers/blogReducer";
+import {
+  initializeBlogs,
+  createBlog,
+  likeBlog,
+  deleteBlog,
+} from "./reducers/blogReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -189,14 +193,14 @@ const App = () => {
       window.confirm(`Remove blog titled '${blog.title}' by '${blog.author}'?`)
     ) {
       try {
-        // Send blog delete request to backend
+        // Dispatch blog deletion action
         const blogId = blog.id;
         console.log(`Blog DELETE sent to ${baseUrl}/${blogId}`);
-        await blogService.deleteBlog(blogId);
-
-        // Update frontend blogs
-        const updatedBlogs = blogs.filter((blog) => blog.id !== blogId);
-        setBlogs(updatedBlogs);
+        dispatch(
+          deleteBlog({
+            blogId: blogId,
+          })
+        );
       } catch (error) {
         console.log("Error in DELETE");
       }

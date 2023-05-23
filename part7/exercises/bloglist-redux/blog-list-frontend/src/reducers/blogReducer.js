@@ -37,16 +37,29 @@ const blogSlice = createSlice({
       updatedBlogs[updatedBlogIndex] = updatedBlog;
       return updatedBlogs;
     },
+
+    // Remove a blog from the state
+    removeBlogFrontend(state, action) {
+      const blogId = action.payload;
+      const blogsCopy = [...JSON.parse(JSON.stringify(state))];
+      const updatedBlogs = blogsCopy.filter((blog) => blog.id !== blogId);
+      return updatedBlogs;
+    },
   },
 });
+
+// Delete a blog via DELETE request to the backend and updating frontend state
+export const deleteBlog = ({ blogId }) => {
+  return async (dispatch) => {
+    await blogService.deleteBlog(blogId);
+    dispatch(removeBlogFrontend(blogId));
+  };
+};
 
 // Upvote a blog. Do a PUT request to the backend and update the frontend state
 export const likeBlog = ({ blogId, updatedBlog }) => {
   return async (dispatch) => {
-    // Do a PUT request to the backend
     await blogService.updateBlog(blogId, updatedBlog);
-
-    // Update the frontend state
     dispatch(likeBlogFrontend({ blogId: blogId }));
   };
 };
@@ -73,4 +86,5 @@ export const createBlog = (newBlogObject) => {
 };
 
 export default blogSlice.reducer;
-export const { setBlogs, appendBlog, likeBlogFrontend } = blogSlice.actions;
+export const { setBlogs, appendBlog, likeBlogFrontend, removeBlogFrontend } =
+  blogSlice.actions;
