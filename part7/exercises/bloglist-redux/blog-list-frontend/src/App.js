@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useMatch } from "react-router-dom";
+import User from "./components/User";
 import Users from "./components/Users";
 import Blog from "./components/Blog";
 import Togglable from "./components/Togglable";
@@ -311,11 +312,29 @@ const App = () => {
     );
   };
 
+  // Display the "/users/id" route
+  const displayUser = (userIdMatch) => {
+    return (
+      <>
+        <Notification
+          message={notificationMessage}
+          notificationColor={notificationColor}
+        />
+        {displayUserState()}
+        <User blogs={blogs} userIdMatch={userIdMatch} />
+      </>
+    );
+  };
+
+  // Obtain user ID
+  const userIdMatch = useMatch("/users/:userId");
+
   return (
     <div>
       <Routes>
         <Route path="/users" element={displayUsers()}></Route>
         <Route path="/" element={displayMainPage()}></Route>
+        <Route path="/users/:userId" element={displayUser(userIdMatch)}></Route>
       </Routes>
     </div>
   );

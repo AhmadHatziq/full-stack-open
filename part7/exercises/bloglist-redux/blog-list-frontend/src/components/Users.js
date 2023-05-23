@@ -1,10 +1,15 @@
+import { Link } from "react-router-dom";
+
+// Renders information regarding all the users and their blog post counts
 const Users = ({ blogs }) => {
-  // Obtain all the unique users
+  // Obtain all the unique users via their username and userId
   let userSet = new Set();
+  let userNameToId = {};
   for (let i = 0; i < blogs.length; i++) {
     let blog = blogs[i];
     let blogUser = blog.user.username;
     userSet.add(blogUser);
+    userNameToId[blogUser] = blog.user.id;
   }
 
   // Convert the Set to an Array
@@ -23,12 +28,6 @@ const Users = ({ blogs }) => {
     userBlogCounts[blogUser] = userBlogCounts[blogUser] + 1;
   }
 
-  /*
-  Object.entries(userBlogCounts).map(([key, value]) => {
-    console.log(key, value);
-  });
-  */
-
   // Render the table of username - blog counts
   const renderUserBlogCounts = () => {
     return (
@@ -42,11 +41,20 @@ const Users = ({ blogs }) => {
           </thead>
           <tbody>
             {Object.entries(userBlogCounts).map(([key, value]) => {
-              console.log(key, value);
+              // console.log(key, value);
+              // key is the username, value is the number of blogs created
+              let userName = key;
+              let blogCounts = value;
+
+              let userId = userNameToId[userName];
+              let userUrl = `/users/${userId}`;
+
               return (
                 <tr key={key}>
-                  <td>{key}</td>
-                  <td>{value}</td>
+                  <td>
+                    <Link to={userUrl}>{userName}</Link>
+                  </td>
+                  <td>{blogCounts}</td>
                 </tr>
               );
             })}
