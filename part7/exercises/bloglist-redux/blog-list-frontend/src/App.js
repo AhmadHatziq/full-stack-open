@@ -11,7 +11,7 @@ import {
   setNotificationMessage,
   setNotificationColor,
 } from "./reducers/notificationReducer";
-import { initializeBlogs } from "./reducers/blogReducer";
+import { initializeBlogs, createBlog } from "./reducers/blogReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -26,7 +26,6 @@ const App = () => {
   const blogs = useSelector((state) => {
     return state.blogs;
   });
-
   const notificationMessage = useSelector((state) => {
     return state.notification.notificationMessage;
   });
@@ -35,7 +34,7 @@ const App = () => {
   );
   const newBlogFormRef = useRef();
 
-  // Loads blogs via GET
+  // Initialize blog data from backend
   useEffect(() => {
     dispatch(initializeBlogs());
   }, [dispatch]);
@@ -134,8 +133,7 @@ const App = () => {
     };
 
     // Save the new blog details & update front end blogs
-    const newBlog = await blogService.create(newBlogObject);
-    setBlogs(blogs.concat(newBlog));
+    dispatch(createBlog(newBlogObject));
 
     // Notify the user of the successful blog post creation
     dispatch(
@@ -144,7 +142,6 @@ const App = () => {
       )
     );
     dispatch(setNotificationColor, "green");
-    console.log("Failed login for ", username);
     console.log("Saved new blog");
 
     // Removes the notification message after some time
