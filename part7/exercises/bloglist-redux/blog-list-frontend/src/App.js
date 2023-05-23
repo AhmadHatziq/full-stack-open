@@ -11,7 +11,7 @@ import {
   setNotificationMessage,
   setNotificationColor,
 } from "./reducers/notificationReducer";
-import { initializeBlogs, createBlog } from "./reducers/blogReducer";
+import { initializeBlogs, createBlog, likeBlog } from "./reducers/blogReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -173,19 +173,13 @@ const App = () => {
       user: blog.user,
     };
 
-    // Send the newblog data via PUT
-    await axios.put(`${baseUrl}/${blogId}`, newBlog);
-
-    // Update the state with the new updated blog object.
-    // Get the index, update that index and save the state.
-    const updatedBlogIndex = blogs.findIndex((blog) => blog.id === blogId);
-    const updatedBlogs = [...blogs];
-    const updatedBlog = {
-      ...blogs[updatedBlogIndex],
-      likes: blogs[updatedBlogIndex].likes + 1,
-    };
-    updatedBlogs[updatedBlogIndex] = updatedBlog;
-    setBlogs(updatedBlogs);
+    // Dispatch the action to handle the liking of a new blog
+    dispatch(
+      likeBlog({
+        blogId: blogId,
+        updatedBlog: newBlog,
+      })
+    );
   };
 
   // Handles the DELETE button.
