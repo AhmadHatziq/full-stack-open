@@ -20,6 +20,7 @@ import {
   deleteBlog,
 } from "./reducers/blogReducer";
 import { setUser, initializeUsers } from "./reducers/userReducer";
+import BlogDisplay from "./components/BlogDisplay";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -330,8 +331,30 @@ const App = () => {
     );
   };
 
+  // Diplay the "/blogs/id" route
+  const displayBlog = (blogIdMatch) => {
+    // Get the matching blog from 'blogs'
+    const matchingBlog = blogIdMatch
+      ? blogs.find((blog) => blog.id === blogIdMatch.params.blogId)
+      : null;
+
+    return (
+      <>
+        <Notification
+          message={notificationMessage}
+          notificationColor={notificationColor}
+        />
+        {displayUserState()}
+        <BlogDisplay blog={matchingBlog} />
+      </>
+    );
+  };
+
   // Obtain user ID
   const userIdMatch = useMatch("/users/:userId");
+
+  // Obtain blog ID
+  const blogIdMatch = useMatch("/blogs/:blogId");
 
   return (
     <div>
@@ -339,6 +362,7 @@ const App = () => {
         <Route path="/users" element={displayUsers()}></Route>
         <Route path="/" element={displayMainPage()}></Route>
         <Route path="/users/:userId" element={displayUser(userIdMatch)}></Route>
+        <Route path="/blogs/:blogId" element={displayBlog(blogIdMatch)}></Route>
       </Routes>
     </div>
   );
