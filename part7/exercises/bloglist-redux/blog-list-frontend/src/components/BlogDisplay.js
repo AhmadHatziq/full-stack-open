@@ -1,5 +1,22 @@
+import { useState } from "react";
+import { addBlogComment } from "../reducers/blogReducer";
+import { useDispatch } from "react-redux";
+
 // Renders information regarding a single blog post on its own
 const BlogDisplay = ({ blog }) => {
+  const dispatch = useDispatch();
+  const [comment, setComment] = useState("");
+  const onChange = (event) => {
+    setComment(event.target.value);
+  };
+  const submitComment = (event) => {
+    event.preventDefault();
+    comment.replace(/\s/g, "").length === 0
+      ? alert("Please enter a valid comment")
+      : dispatch(addBlogComment({ newComment: comment, blog: blog }));
+    setComment("");
+  };
+
   // Renders the blog comments
   const displayBlogComments = () => {
     if (!blog.comments) {
@@ -30,6 +47,10 @@ const BlogDisplay = ({ blog }) => {
           <h3>Posted by user: {blog.user.username}</h3>
 
           <h3>Comments: </h3>
+          <form onSubmit={submitComment}>
+            <input type="text" onChange={onChange} value={comment}></input>
+            <button>Submit comment</button>
+          </form>
           {displayBlogComments()}
         </>
       );

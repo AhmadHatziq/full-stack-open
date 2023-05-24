@@ -45,6 +45,24 @@ const blogSlice = createSlice({
       const updatedBlogs = blogsCopy.filter((blog) => blog.id !== blogId);
       return updatedBlogs;
     },
+
+    // Replace a blog, given the new blog. Looks at the ID of the payload blog
+    updateBlog(state, action) {
+      const updatedBlog = action.payload;
+      const blogId = updatedBlog.id;
+
+      let blogsCopy = [...state];
+
+      // Find the index of the blog to update
+      const blogIndex = blogsCopy.findIndex((blog) => blog.id === blogId);
+
+      // If the blog is found, replace it with the updated blog
+      if (blogIndex !== -1) {
+        blogsCopy[blogIndex] = updatedBlog;
+      }
+
+      return blogsCopy;
+    },
   },
 });
 
@@ -80,11 +98,30 @@ export const createBlog = (newBlogObject) => {
 
     // Update the frontend state
     dispatch(appendBlog(newBlog));
+  };
+};
 
-    console.log("From blog reducer, created: ", newBlog);
+// Add a comment for a blog
+export const addBlogComment = ({ newComment, blog }) => {
+  return async (dispatch) => {
+    // Create a new blog object, with the new comment
+    const updatedComments = [...blog.comments].concat(newComment);
+    const updatedBlog = { ...blog, comments: updatedComments };
+
+    // Issue a PUT request to the backend
+    const blogId = blog.id;
+    await blogService.updateBlog(blogId, updatedBlog);
+
+    // Update the frontend state
+    dispatch(updateBlog(updatedBlog));
   };
 };
 
 export default blogSlice.reducer;
-export const { setBlogs, appendBlog, likeBlogFrontend, removeBlogFrontend } =
-  blogSlice.actions;
+export const {
+  setBlogs,
+  appendBlog,
+  likeBlogFrontend,
+  removeBlogFrontend,
+  updateBlog,
+} = blogSlice.actions;
