@@ -16,9 +16,19 @@ const User = ({ userIdMatch, blogs, matchingUser }) => {
     }
   }
 
+  // If matchingUser is valid, use it. Else, fallback to userName. Else, fallback to userId
+  let displayName = null;
+  if (matchingUser) {
+    displayName = matchingUser.username;
+  } else if (userName) {
+    displayName = userName;
+  } else {
+    displayName = userId;
+  }
+
   return (
     <>
-      {userName ? <h1>{userName}</h1> : <h1>{userId}</h1>}
+      <h1>{displayName}</h1>
       <h2>Blogs Added: </h2>
       {blogsPosted && blogsPosted.length > 0 ? (
         <ul>
