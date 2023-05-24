@@ -354,17 +354,35 @@ const App = () => {
     );
   };
 
-  // Display the navigation bar
+  // Display the navigation bar, which contains the link to root, 'Users' and the logged in user profile
   const displayNavBar = () => {
+    // Obtains the logged in username, user ID and create the link to their profile
+    const userProfileLink = () => {
+      try {
+        if (user) {
+          const loggedInUsername = user.username;
+          const userObject = users.find(
+            (userElement) => userElement.username === loggedInUsername
+          );
+          const userProfileUrl = `/users/${userObject.id}`;
+          return <Nav.Link href={userProfileUrl}>{loggedInUsername}</Nav.Link>;
+        } else {
+          return null;
+        }
+      } catch (error) {
+        return null;
+      }
+    };
+
     return (
       <Navbar bg="light" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="/">Blog List App</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
+              <Nav.Link href="/users">Users</Nav.Link>
+              {userProfileLink()}
             </Nav>
           </Navbar.Collapse>
         </Container>
