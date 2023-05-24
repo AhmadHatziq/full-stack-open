@@ -140,7 +140,7 @@ const App = () => {
       title: blogTitle,
       author: blogAuthor,
       url: blogUrl,
-      comments: [],
+      comments: ["1st test comment 😊"],
     };
 
     // Save the new blog details & update front end blogs
