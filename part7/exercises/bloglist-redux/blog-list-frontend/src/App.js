@@ -24,6 +24,7 @@ import BlogDisplay from "./components/BlogDisplay";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
@@ -266,8 +267,9 @@ const App = () => {
           loginForm()
         ) : (
           <div>
-            Welcome! {user.username} logged in
-            <button
+            Welcome! {user.username} logged in ‎
+            <Button
+              variant="warning"
               type="button"
               onClick={() => {
                 window.localStorage.removeItem("user");
@@ -275,7 +277,7 @@ const App = () => {
               }}
             >
               logout
-            </button>
+            </Button>
           </div>
         )}
       </>

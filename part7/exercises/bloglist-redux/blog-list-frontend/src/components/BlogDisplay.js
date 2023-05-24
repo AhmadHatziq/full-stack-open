@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { addBlogComment } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
+import ListGroup from "react-bootstrap/ListGroup";
+import Button from "react-bootstrap/Button";
 
 // Renders information regarding a single blog post on its own
 const BlogDisplay = ({ blog }) => {
@@ -28,11 +30,11 @@ const BlogDisplay = ({ blog }) => {
     }
 
     return (
-      <ul>
+      <ListGroup>
         {blog.comments.map((comment, index) => (
-          <li key={index}>{comment}</li>
+          <ListGroup.Item key={index}>{comment}</ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     );
   };
 
@@ -49,7 +51,7 @@ const BlogDisplay = ({ blog }) => {
           <h3>Comments: </h3>
           <form onSubmit={submitComment}>
             <input type="text" onChange={onChange} value={comment}></input>
-            <button>Submit comment</button>
+            <Button variant="primary">Submit comment</Button>
           </form>
           {displayBlogComments()}
         </>

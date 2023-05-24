@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Table from "react-bootstrap/Table";
 
 // Renders information regarding all the users and their blog post counts
 const Users = ({ blogs }) => {
@@ -32,34 +33,36 @@ const Users = ({ blogs }) => {
   const renderUserBlogCounts = () => {
     return (
       <>
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Blogs Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(userBlogCounts).map(([key, value]) => {
-              // console.log(key, value);
-              // key is the username, value is the number of blogs created
-              let userName = key;
-              let blogCounts = value;
+        <Table striped bordered hover>
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Blogs Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(userBlogCounts).map(([key, value]) => {
+                // console.log(key, value);
+                // key is the username, value is the number of blogs created
+                let userName = key;
+                let blogCounts = value;
 
-              let userId = userNameToId[userName];
-              let userUrl = `/users/${userId}`;
+                let userId = userNameToId[userName];
+                let userUrl = `/users/${userId}`;
 
-              return (
-                <tr key={key}>
-                  <td>
-                    <Link to={userUrl}>{userName}</Link>
-                  </td>
-                  <td>{blogCounts}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                return (
+                  <tr key={key}>
+                    <td>
+                      <Link to={userUrl}>{userName}</Link>
+                    </td>
+                    <td>{blogCounts}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Table>
       </>
     );
   };
