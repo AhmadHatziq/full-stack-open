@@ -1,5 +1,5 @@
 // Renders information regarding a single user and their blog post titles
-const User = ({ userIdMatch, blogs }) => {
+const User = ({ userIdMatch, blogs, matchingUser }) => {
   const userId = userIdMatch.params.userId;
 
   // Obtain all blogs belonging to the specified user

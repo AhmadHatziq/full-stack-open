@@ -19,23 +19,17 @@ import {
   likeBlog,
   deleteBlog,
 } from "./reducers/blogReducer";
-import { setUser } from "./reducers/userReducer";
+import { setUser, initializeUsers } from "./reducers/userReducer";
 
 const baseUrl = "http://localhost:3003/api/blogs";
 
 const App = () => {
   const dispatch = useDispatch();
-
-  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // const [user, setUser] = useState(null);
-  const user = useSelector((state) => state.user);
-
-  const blogs = useSelector((state) => {
-    return state.blogs;
-  });
+  const user = useSelector((state) => state.user.user); // user stores the logged-in user
+  const users = useSelector((state) => state.user.users); // users stores all the users
+  const blogs = useSelector((state) => state.blogs);
   const notificationMessage = useSelector((state) => {
     return state.notification.notificationMessage;
   });
@@ -44,9 +38,10 @@ const App = () => {
   );
   const newBlogFormRef = useRef();
 
-  // Initialize blog data from backend
+  // Initialize blogs and users data from backend
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, [dispatch]);
 
   // Checks if the user is saved in localStorage at the beginning.
@@ -314,6 +309,11 @@ const App = () => {
 
   // Display the "/users/id" route
   const displayUser = (userIdMatch) => {
+    // Get the matching user from 'users'
+    const matchingUser = userIdMatch
+      ? users.find((user) => user.id === userIdMatch.params.userId)
+      : null;
+
     return (
       <>
         <Notification
@@ -321,7 +321,11 @@ const App = () => {
           notificationColor={notificationColor}
         />
         {displayUserState()}
-        <User blogs={blogs} userIdMatch={userIdMatch} />
+        <User
+          blogs={blogs}
+          userIdMatch={userIdMatch}
+          matchingUser={matchingUser}
+        />
       </>
     );
   };
