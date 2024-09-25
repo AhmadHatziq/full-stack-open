@@ -48,3 +48,44 @@ query {
   }
 }
 ```
+
+To mutate and edit phone number: 
+```
+mutation {
+  editNumber(
+    name: "Venla Ruuska"
+    phone: "999"
+    
+  ) {
+    name
+    phone
+    address{
+      city
+      street
+    }
+    id
+  }
+}
+```
+
+Combining 2 queries: 
+```
+query {
+  personCount
+  allPersons {
+    name
+  }
+}
+```
+
+Combining 2 queries, with seperate names: 
+```
+query {
+  havePhone: allPersons(phone: YES){
+    name
+  }
+  phoneless: allPersons(phone: NO){
+    name
+  }
+}
+```

@@ -59,6 +59,11 @@ const typeDefs = `
       street: String!
       city: String!    
     ): Person
+
+    editNumber(
+      name: String! 
+      phone: String!
+    ): Person 
   }
 `
 
@@ -70,7 +75,7 @@ const resolvers = {
 
       // If phone arg is not given in query, return all persons 
       if (!args.phone) {
-        return phones
+        return persons
       }
 
       // Create a filter, depending on the existence of phone field 
@@ -109,7 +114,22 @@ const resolvers = {
       const person = { ...args, id: uuid() }
       persons = persons.concat(person)
       return person
-    }
+    }, 
+
+    editNumber: (root, args) => {
+      const person = persons.find(p => p.name === args.name)
+      if (!person) {
+        return null
+      }
+  
+      const updatedPerson = { ...person, phone: args.phone }
+
+      // In the persons array, if the name matches, replace that person with updatedPerson. Replace the persons array with this new array. 
+      persons = persons.map(p => p.name === args.name ? updatedPerson : p)
+      
+      return updatedPerson
+    }, 
+
   }
 
   /*
