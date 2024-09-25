@@ -57,3 +57,18 @@ allBooks(genre: "refactoring") {
 }
 ```
 
+Query to add new book with new author: 
+```
+mutation {
+  addBook(
+    title: "Pimeyden tango",
+    author: "Reijo Mäki",
+    published: 1997,
+    genres: ["crime"]
+  ) {
+    title,
+    author
+  }
+}
+```
+

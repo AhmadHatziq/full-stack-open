@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { v1: uuid } = require('uuid')
 
 let authors = [
   {
@@ -118,6 +119,16 @@ const typeDefs = `
     allBooks(author: String, genre: String): [Book!]! 
     allAuthors: [Author]! 
   }
+
+  type Mutation { 
+    addBook(
+      title: String!
+      published: Int!
+      author: String!
+      genres: [String!]!
+    ): Book
+  }
+
 `
 
 const resolvers = {
@@ -154,7 +165,29 @@ const resolvers = {
         return allAuthorsObject
 
     }, 
-  }
+
+  }, 
+  Mutation: {
+    addBook: (root, args) => {
+        // check to see if author is in. If not, add author to list. 
+        const authorNames = new Set(authors.map(author => author.name))
+        if (!authorNames.has(args.author)) {
+            const newAuthor = {
+                name: args.author, 
+                id: uuid(), 
+                born: null 
+            }
+            console.log("Adding new author: ", newAuthor)
+            authors = authors.concat(newAuthor)
+        }
+
+        // Add book into list 
+        const newBook = { ...args, id: uuid() }
+        console.log("Adding new book: ", newBook)
+        books = books.concat(newBook)
+        return newBook 
+    }
+}, 
 }
 
 const server = new ApolloServer({
