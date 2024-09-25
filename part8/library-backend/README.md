@@ -13,3 +13,17 @@ query {
    authorCount 
 }
 ```
+
+Query to return all books: 
+```
+query {
+   allBooks {
+    author
+    title 
+    published 
+    id 
+    genres 
+   } 
+}
+```
+
