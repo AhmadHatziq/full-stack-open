@@ -40,11 +40,18 @@ const typeDefs = `
     id: ID!
   }
 
+  enum YesNo {
+    YES 
+    NO
+  }
+
   type Query {
     personCount: Int!
-    allPersons: [Person!]!
+    # allPersons: [Person!]!
+    allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
   }
+
   type Mutation { 
     addPerson(
       name: String!
@@ -58,7 +65,22 @@ const typeDefs = `
 const resolvers = {
   Query: {
     personCount: () => persons.length,
-    allPersons: () => persons,
+    
+    allPersons: (root, args) => {
+
+      // If phone arg is not given in query, return all persons 
+      if (!args.phone) {
+        return phones
+      }
+
+      // Create a filter, depending on the existence of phone field 
+      const byPhone = (person) => 
+        args.phone === 'YES' ? person.phone : !person.phone 
+
+      // Return persons, depending on the phone filter 
+      return persons.filter(byPhone)
+    }, 
+
     findPerson: (root, args) =>
       persons.find(p => p.name === args.name)
   }, 

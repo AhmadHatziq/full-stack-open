@@ -33,3 +33,18 @@ query {
   }
 }
 ```
+
+To view persons with/without phone number, with the specified ENUM: 
+```
+query {
+  allPersons(phone: YES) {
+    name
+  }
+}
+
+query {
+  allPersons(phone: NO) {
+    name
+  }
+}
+```
