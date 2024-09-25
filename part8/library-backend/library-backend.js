@@ -112,6 +112,12 @@ const typeDefs = `
     bookCount: Int
   }
 
+  type AuthorBorn {
+    name: String! 
+    id: ID!
+    born: Int 
+  }
+
   type Query {
     dummy: Int
     bookCount: Int! 
@@ -127,6 +133,11 @@ const typeDefs = `
       author: String!
       genres: [String!]!
     ): Book
+
+    editAuthor(
+      name: String! 
+      setBornTo: Int! 
+    ): AuthorBorn
   }
 
 `
@@ -186,6 +197,24 @@ const resolvers = {
         console.log("Adding new book: ", newBook)
         books = books.concat(newBook)
         return newBook 
+    }, 
+    editAuthor: (root, args) => {
+        // Check to see if author exists. 
+        const authorNames = new Set(authors.map(author => author.name))
+        if (!authorNames.has(args.name)) {
+            console.log("Author does not exist: ", args.name)
+            return null 
+        }
+
+        // Edit age of author 
+        console.log("Updating author ", args.name, " age to ", args.setBornTo)
+        const authorIndex = authors.findIndex(author => author.name == args.name)
+        let updatedAuthor = {...authors[authorIndex], born: args.setBornTo}
+        authors[authorIndex] = updatedAuthor
+
+        console.log("Author list: ", authors)
+
+        return authors[authorIndex]
     }
 }, 
 }

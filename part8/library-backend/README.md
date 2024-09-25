@@ -72,3 +72,12 @@ mutation {
 }
 ```
 
+Query to update author's age: 
+```
+mutation {
+  editAuthor(name: "Reijo Mäki", setBornTo: 1958) {
+    name
+    born
+  }
+}
+```
