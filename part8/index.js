@@ -26,11 +26,15 @@ let persons = [
 ]
 
 const typeDefs = `
+  type Address {
+    street: String!
+    city: String! 
+  }
+
   type Person {
     name: String!
     phone: String
-    street: String!
-    city: String! 
+    address: Address
     id: ID!
   }
 
@@ -49,11 +53,21 @@ const resolvers = {
       persons.find(p => p.name === args.name)
   }, 
 
+  Person: {
+    address: (root) => {
+        if (root.street && root.city) {
+            return {street: root.street, city: root.city}; 
+        }
+    }
+  }
+
+  /*
   // Adding on fields for the default Person resolver. Everyone's street and city is hardcoded now. 
   Person: {
     street: (root) => "Manhattan",
     city: (root) => "New York"
   }
+  */ 
 }
 
 // The GraphQL server takes 2 parameters. 
@@ -92,6 +106,17 @@ startStandaloneServer(server, {
         // For personCount, we do not need to define any fields. Hence, there is no '{}' at the end. 
         query {
             personCount
+            }
+
+        // For findPerson, with Address 
+        query {
+            findPerson(name: "Arto Hellas") {
+                phone 
+                address {
+                city 
+                street
+                }
+            }
             }
 
 */
