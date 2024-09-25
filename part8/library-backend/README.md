@@ -27,3 +27,14 @@ query {
 }
 ```
 
+Query to return authors and their bookcounts: 
+```
+query {
+   allAuthors {
+    name 
+    bookCount
+   }
+   } 
+
+```
+
