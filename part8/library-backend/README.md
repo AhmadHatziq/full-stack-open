@@ -38,3 +38,13 @@ query {
 
 ```
 
+Query to return books given the author name: 
+```
+query {
+allBooks(author: "Robert Martin") {
+  title
+}
+}
+```
+
+
