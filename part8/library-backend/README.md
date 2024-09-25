@@ -47,4 +47,13 @@ allBooks(author: "Robert Martin") {
 }
 ```
 
+Query to return books given a genre: 
+```
+query {
+allBooks(genre: "refactoring") {
+  title
+  author
+}
+}
+```
 
