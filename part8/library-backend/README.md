@@ -5,6 +5,12 @@ npm install @apollo/server graphql
 node library-backend.js 
 ```
 
+Running on: 
+```
+node --version
+v22.7.0
+```
+
 Query to get dummy, bookCount and authorCount: 
 ```
 query {
